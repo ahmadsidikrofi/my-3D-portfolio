@@ -27,11 +27,8 @@ export function Island({
     const { gl, viewport } = useThree();
     const { nodes, materials } = useGLTF("/assets/3d/island.glb");
 
-    // Use a ref for the last mouse x position
     const lastX = useRef(0);
-    // Use a ref for rotation speed
     const rotationSpeed = useRef(0);
-    // Define a damping factor to control rotation damping
     const dampingFactor = 0.95;
 
     // Handle pointer (mouse or touch) down event
@@ -52,13 +49,6 @@ export function Island({
         event.stopPropagation();
         event.preventDefault();
         setIsRotating(false);
-
-        const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-
-        const delta = (clientX - lastX.current) / viewport.width
-        islandRef.current.rotation.y += delta * 0.01 * Math.PI
-        lastX.current = clientX
-        rotationSpeed.current = delta * 0.01 * Math.PI
     };
 
     // Handle pointer (mouse or touch) move event
@@ -136,31 +126,6 @@ export function Island({
         }
     }
 
-    useEffect(() => {
-        // Add event listeners for pointer and keyboard events
-        const canvas = gl.domElement;
-        canvas.addEventListener("pointerdown", handlePointerDown);
-        canvas.addEventListener("pointerup", handlePointerUp);
-        canvas.addEventListener("pointermove", handlePointerMove);
-        window.addEventListener("keydown", handleKeyDown);
-        window.addEventListener("keyup", handleKeyUp);
-        canvas.addEventListener("touchstart", handleTouchStart);
-        canvas.addEventListener("touchend", handleTouchEnd);
-        canvas.addEventListener("touchmove", handleTouchMove);
-
-        // Remove event listeners when component unmounts
-        return () => {
-            canvas.removeEventListener("pointerdown", handlePointerDown);
-            canvas.removeEventListener("pointerup", handlePointerUp);
-            canvas.removeEventListener("pointermove", handlePointerMove);
-            window.removeEventListener("keydown", handleKeyDown);
-            window.removeEventListener("keyup", handleKeyUp);
-            canvas.removeEventListener("touchstart", handleTouchStart);
-            canvas.removeEventListener("touchend", handleTouchEnd);
-            canvas.removeEventListener("touchmove", handleTouchMove);
-        };
-    }, [gl, handlePointerDown, handlePointerUp, handlePointerMove]);
-
     // This function is called on each frame update
     useFrame(() => {
         // If not rotating, apply damping to slow down the rotation (smoothly)
@@ -194,8 +159,7 @@ export function Island({
              *     always stays within the range of 0 to 2 * Math.PI, which is equivalent to a full
              *     circle in radians.
              */
-            const normalizedRotation =
-                ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+            const normalizedRotation = ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
 
             // Set the current stage based on the island's orientation
             switch (true) {
@@ -216,6 +180,31 @@ export function Island({
             }
         }
     });
+
+    useEffect(() => {
+        // Add event listeners for pointer and keyboard events
+        const canvas = gl.domElement;
+        canvas.addEventListener("pointerdown", handlePointerDown);
+        canvas.addEventListener("pointerup", handlePointerUp);
+        canvas.addEventListener("pointermove", handlePointerMove);
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("keyup", handleKeyUp);
+        canvas.addEventListener("touchstart", handleTouchStart);
+        canvas.addEventListener("touchend", handleTouchEnd);
+        canvas.addEventListener("touchmove", handleTouchMove);
+
+        // Remove event listeners when component unmounts
+        return () => {
+            canvas.removeEventListener("pointerdown", handlePointerDown);
+            canvas.removeEventListener("pointerup", handlePointerUp);
+            canvas.removeEventListener("pointermove", handlePointerMove);
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keyup", handleKeyUp);
+            canvas.removeEventListener("touchstart", handleTouchStart);
+            canvas.removeEventListener("touchend", handleTouchEnd);
+            canvas.removeEventListener("touchmove", handleTouchMove);
+        };
+    }, [gl, handlePointerDown, handlePointerUp, handlePointerMove]);
 
     return (
         // {Island 3D model from: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be7785907}

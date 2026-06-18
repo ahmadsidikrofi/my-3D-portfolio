@@ -2,8 +2,8 @@
 
 import Loader from "@/components/Loader";
 import Bird from "@/models/bird";
-import Plane from "@/models/plane";
 import { Island } from "@/models/island";
+import { Plane } from "@/models/plane";
 import Sky from "@/models/sky";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useState } from "react";
@@ -63,6 +63,7 @@ export default function Home() {
           <hemisphereLight skyColor="#b1e1ff" groudColor="#000000" intensity={1} />
 
           <Island
+            isRotating={isRotating}
             scale={islandScale}
             position={islandPosition}
             rotation={islandRotation}
