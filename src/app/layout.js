@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "The Verge Style Portfolio",
-  description: "2D Side-scroller interactive portfolio",
+  title: "3D Portfolio",
+  description: "3D Portfolio",
 };
 
 export default function RootLayout({ children }) {
