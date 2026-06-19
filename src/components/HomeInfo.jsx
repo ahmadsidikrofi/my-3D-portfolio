@@ -1,5 +1,8 @@
+'use client'
+
 import Link from "next/link"
 import Button01 from "./shadcn-space/radix/button/button-01"
+import { motion } from "framer-motion"
 
 const InfoBox = ({ text, link, btnText }) => (
     <div className="group relative bg-[#3b82f6] text-white p-6 sm:pt-4 sm:pb-8 group-hover:pb-4 group-hover:sm:pb-6 rounded-[28px] max-w-sm mx-auto shadow-[4px_4px_0px_0px_#1d4ed8] border-2 border-blue-500 flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:-translate-y-1">
@@ -48,7 +51,25 @@ const renderContent = {
 }
 
 const HomeInfo = ({ currentStage }) => {
-    return renderContent[currentStage] || null
+    const content = renderContent[currentStage];
+    if (!content) return null;
+
+    return (
+        <motion.div
+            key={currentStage}
+            initial={{ opacity: 0, y: 50, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{
+                type: "spring",
+                stiffness: 120,
+                damping: 15,
+                mass: 0.8
+            }}
+            className="w-full flex justify-center items-center"
+        >
+            {content}
+        </motion.div>
+    )
 }
 
 export default HomeInfo
