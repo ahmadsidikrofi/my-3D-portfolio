@@ -33,7 +33,7 @@ const SkillCard = ({ skill, index }) => {
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
 
-        const rotateX = -y / 4; 
+        const rotateX = -y / 4;
         const rotateY = x / 4;
 
         content.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px) scale(1.1)`;
@@ -55,13 +55,13 @@ const SkillCard = ({ skill, index }) => {
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                className="group relative flex flex-col items-center justify-center w-full aspect-square border-4 border-black dark:border-white bg-neutral-50 dark:bg-neutral-900 cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,255,153,1)] hover:bg-[#00FF99] grayscale hover:grayscale-0 transition-colors duration-300"
+                className="group relative flex flex-col items-center justify-center w-full aspect-square border-4 border-black dark:border-white bg-neutral-50 dark:bg-neutral-900 cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,255,153,1)] hover:bg-[#a0c2f9] grayscale hover:grayscale-0 transition-colors duration-300"
                 style={{ perspective: 1000 }}
             >
-                <div 
+                <div
                     ref={contentRef}
                     className="flex flex-col items-center justify-center pointer-events-none"
-                    style={{ 
+                    style={{
                         transformStyle: "preserve-3d",
                         transition: "transform 0.15s ease-out"
                     }}
@@ -72,7 +72,7 @@ const SkillCard = ({ skill, index }) => {
                         className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow-md"
                         style={{ transform: "translateZ(10px)" }}
                     />
-                    <span 
+                    <span
                         className="mt-2 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-center leading-tight group-hover:text-black"
                         style={{ transform: "translateZ(10px)" }}
                     >
@@ -94,7 +94,7 @@ const AboutPage = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
-                    className="text-xs sm:text-sm font-mono uppercase tracking-[0.3em] text-[#00FF99] mb-4"
+                    className="text-xs sm:text-sm font-mono uppercase tracking-[0.3em] text-[#3B82F6] mb-4"
                 >
                     About / Profile
                 </motion.p>
@@ -108,9 +108,9 @@ const AboutPage = () => {
                     Hello,
                     <br />
                     I'm{" "}
-                    <span className="text-[#00FF99] relative inline-block">
+                    <span className="text-[#3B82F6] relative inline-block">
                         Rofi
-                        <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#00FF99]" />
+                        <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#3B82F6]" />
                     </span>{" "}
                     <motion.span
                         animate={{
@@ -134,13 +134,13 @@ const AboutPage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
-                    className="mt-8 max-w-2xl text-base sm:text-lg font-normal text-neutral-600 dark:text-neutral-400 leading-relaxed border-l-4 border-[#00FF99] pl-4"
+                    className="mt-8 max-w-2xl text-base sm:text-lg font-normal text-neutral-600 dark:text-neutral-400 leading-relaxed border-l-4 border-[#3B82F6] pl-4"
                 >
                     Software Engineer specializing in building reliable web-based systems, real-time applications, and AI integrations.
                 </motion.p>
 
                 {/* Decorative grid lines */}
-                <div className="absolute top-0 right-6 sm:right-12 lg:right-20 w-32 h-32 border-4 border-[#00FF99]/20 pointer-events-none" />
+                <div className="absolute top-0 right-6 sm:right-12 lg:right-20 w-32 h-32 border-4 border-[#3B82F6]/20 pointer-events-none" />
                 <div className="absolute top-8 right-14 sm:right-20 lg:right-28 w-32 h-32 border-4 border-black/10 dark:border-white/10 pointer-events-none" />
             </div>
 
@@ -153,7 +153,7 @@ const AboutPage = () => {
                 >
                     <motion.p
                         variants={fadeUp}
-                        className="text-xs font-mono uppercase tracking-[0.3em] text-[#00FF99] mb-2"
+                        className="text-xs font-mono uppercase tracking-[0.3em] text-[#3B82F6] mb-2"
                     >
                         Toolkit
                     </motion.p>
@@ -187,7 +187,7 @@ const AboutPage = () => {
                 >
                     <motion.p
                         variants={fadeUp}
-                        className="text-xs font-mono uppercase tracking-[0.3em] text-[#00FF99] mb-2"
+                        className="text-xs font-mono uppercase tracking-[0.3em] text-[#3B82F6] mb-2"
                     >
                         Career
                     </motion.p>
@@ -208,7 +208,7 @@ const AboutPage = () => {
                 </motion.div>
 
                 <div className="mt-4">
-                    <VerticalTimeline lineColor="#00FF99">
+                    <VerticalTimeline lineColor="#3B82F6">
                         {experiences.map((experience, index) => (
                             <VerticalTimelineElement
                                 key={experience.company_name}
@@ -216,7 +216,7 @@ const AboutPage = () => {
                                 dateClassName="!text-neutral-500 dark:!text-neutral-400 !font-mono !text-xs !uppercase !tracking-widest"
                                 iconStyle={{
                                     background: experience.iconBg,
-                                    boxShadow: '0 0 0 4px #00FF99',
+                                    boxShadow: '0 0 0 4px #3B82F6',
                                 }}
                                 icon={
                                     <div className="flex justify-center items-center w-full h-full">
@@ -231,7 +231,7 @@ const AboutPage = () => {
                                     background: 'transparent',
                                     border: '4px solid',
                                     borderColor: 'currentColor',
-                                    boxShadow: '6px 6px 0px 0px rgba(0,255,153,0.4)',
+                                    boxShadow: '6px 6px 0px 0px rgba(59,130,246,1)',
                                     borderRadius: '0px',
                                     padding: '24px',
                                 }}
@@ -251,7 +251,7 @@ const AboutPage = () => {
                                     <h3 className="text-lg sm:text-xl font-black uppercase tracking-tight text-neutral-900 dark:text-white">
                                         {experience.title}
                                     </h3>
-                                    <p className="text-[#00FF99] font-mono text-sm font-bold mt-1" style={{ margin: '4px 0 0 0' }}>
+                                    <p className="text-[#3B82F6] font-mono text-sm font-bold mt-1" style={{ margin: '4px 0 0 0' }}>
                                         {experience.company_name}
                                     </p>
 
@@ -259,7 +259,7 @@ const AboutPage = () => {
                                         {experience.points.map((point, i) => (
                                             <li
                                                 key={`experience-point-${i}`}
-                                                className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed pl-4 border-l-2 border-[#00FF99]/40"
+                                                className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed pl-4 border-l-2 border-[#3B82F6]/40"
                                             >
                                                 {point}
                                             </li>
@@ -279,10 +279,10 @@ const AboutPage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: false }}
                     transition={{ duration: 0.5 }}
-                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-4 border-black dark:border-white p-8 sm:p-12 shadow-[8px_8px_0px_0px_rgba(0,255,153,1)]"
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-4 border-black dark:border-white p-8 sm:p-12 shadow-[8px_8px_0px_0px_rgba(59,130,246,1)]"
                 >
                     <div>
-                        <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#00FF99] mb-2">
+                        <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#3B82F6] mb-2">
                             What's next?
                         </p>
                         <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
@@ -295,10 +295,10 @@ const AboutPage = () => {
                         <motion.button
                             whileHover={{ scale: 1.05, x: 4 }}
                             whileTap={{ scale: 0.95 }}
-                            className="flex items-center gap-3 px-8 py-4 bg-[#00FF99] text-black font-black uppercase tracking-wider text-sm border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow cursor-pointer"
+                            className="flex items-center gap-3 px-8 py-4 bg-[#3B82F6] text-black font-black uppercase tracking-wider text-sm border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow cursor-pointer"
                         >
                             Get in Touch
-                            <ArrowRight size={20} strokeWidth={3} />
+                            <ArrowRight size={20} strokeWidth={3} className="" />
                         </motion.button>
                     </Link>
                 </motion.div>
