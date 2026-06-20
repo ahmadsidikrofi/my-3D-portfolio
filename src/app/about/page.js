@@ -10,6 +10,8 @@ import { experiences, skills } from "@/constants"
 import "react-vertical-timeline-component/style.min.css"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import RotatingText from "@/components/RotatingText"
+import InteractiveProfilePic from "@/components/InteractiveProfilePic"
 
 const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -99,36 +101,38 @@ const AboutPage = () => {
                     About / Profile
                 </motion.p>
 
-                <motion.h1
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-5xl sm:text-7xl lg:text-[8rem] font-black uppercase leading-[0.9] tracking-tighter"
-                >
-                    Hello,
-                    <br />
-                    I'm{" "}
-                    <span className="text-[#3B82F6] relative inline-block">
-                        Rofi
-                        <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#3B82F6]" />
-                    </span>{" "}
-                    <motion.span
-                        animate={{
-                            rotate: [0, 14, -8, 14, -4, 10, 0],
-                        }}
-                        transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            repeatDelay: 0.8,
-                        }}
-                        style={{
-                            display: "inline-block",
-                            transformOrigin: "70% 70%",
-                        }}
+                <div className="flex gap-6 justify-start items-center">
+                    <InteractiveProfilePic />
+                    <motion.h1
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        className="text-5xl sm:text-6xl lg:text-[7rem] font-black uppercase leading-[0.9] tracking-tighter"
                     >
-                        👋
-                    </motion.span>
-                </motion.h1>
+                        Hello,
+                        <br />
+                        I'm{" "}
+                        <span className="text-[#3B82F6] relative inline-block">
+                            <RotatingText
+                                texts={['Rofi', 'Software Dev', 'Full-Stack Dev', 'Backend Dev']}
+                                mainClassName="px-2 sm:px-2 md:px-3 bg-[#3B82F6] text-[#F4F4F4] overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded"
+                                staggerFrom="last"
+                                initial={{ y: "100%" }}
+                                animate={{ y: 0 }}
+                                exit={{ y: "-120%" }}
+                                staggerDuration={0.025}
+                                splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+                                transition={{ type: "spring", damping: 60, stiffness: 600 }}
+                                rotationInterval={2000}
+                                splitBy="characters"
+                                auto
+                                loop
+                            />
+                            {/* <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#3B82F6]" /> */}
+                        </span>{" "}
+                    </motion.h1>
+                </div>
+
 
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}

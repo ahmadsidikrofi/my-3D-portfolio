@@ -18,7 +18,17 @@ const CARD_CLASS =
 const ProjectsPage = () => {
     return (
         <div className="h-screen overflow-hidden bg-[#f4f4f4] dark:bg-[#0a0a0a] text-neutral-900 dark:text-white">
-            <ScrollStack itemStackDistance={60} blurAmount={2}>
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                .hide-scroll::-webkit-scrollbar {
+                    display: none;
+                }
+                .hide-scroll {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}} />
+            <ScrollStack className="hide-scroll" itemStackDistance={30} blurAmount={2}>
                 {/* ── Card 1 : Hero ── */}
                 <ScrollStackItem itemClassName={`${CARD_CLASS} !shadow-none !border-0`}>
                     <div className="relative px-8 py-0 md:px-16 bg-[#f4f4f4] dark:bg-[#0a0a0a]">
