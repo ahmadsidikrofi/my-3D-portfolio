@@ -186,7 +186,20 @@ const InteractiveProfilePic = () => {
     }, [hasExploded, startShrinking])
 
     return (
-        <div className="relative flex-shrink-0 select-none">
+        <div className="relative shrink-0 select-none mt-8 sm:mt-0">
+            {/* Floating tooltip indicating interactivity */}
+            {!isHovering && !hasExploded && (
+                <motion.div
+                    className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black text-white text-[10px] font-mono font-bold uppercase tracking-widest border-2 border-black shadow-[4px_4px_0_0_#3B82F6] whitespace-nowrap pointer-events-none z-10"
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: [0, -6, 0] }}
+                    transition={{ opacity: { duration: 0.3 }, y: { duration: 2, repeat: Infinity, ease: "easeInOut" } }}
+                >
+                    Hover Me for 3s
+                    <div className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-black" />
+                </motion.div>
+            )}
+
             {/* Main photo container */}
             <div
                 ref={containerRef}

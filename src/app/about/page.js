@@ -12,6 +12,8 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import RotatingText from "@/components/RotatingText"
 import InteractiveProfilePic from "@/components/InteractiveProfilePic"
+import VisitorPhotobooth from "@/components/VisitorPhotobooth"
+import ReflectiveCard from "@/components/ReflectiveCard"
 
 const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -275,6 +277,10 @@ const AboutPage = () => {
                     </VerticalTimeline>
                 </div>
             </div>
+
+
+            {/* Visitor Photobooth Section */}
+            <VisitorPhotobooth />
 
             {/* CTA Section */}
             <div className="w-full px-6 sm:px-12 lg:px-20 py-20">
