@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import ClickSpark from "@/components/ClickSpark";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
         >
           {children}
         </ClickSpark>
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );

@@ -1,70 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, forwardRef, useImperativeHandle, memo, useCallback } from 'react';
 import { Fingerprint, Activity, Lock } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
-const ReflectiveCard = ({
-  name = '',
-  role = '',
-  blurStrength = 12,
-  color = 'white',
-  metalness = 1,
-  roughness = 0.4,
-  overlayColor = 'rgba(255, 255, 255, 0.1)',
-  displacementStrength = 20,
-  noiseScale = 1,
-  specularConstant = 1.2,
-  grayscale = 1,
-  glassDistortion = 0,
-  className = '',
-  style = {}
+// Memoized background component to prevent heavy SVG filters and video/image elements from re-rendering
+// when only name or role changes.
+const CardBackground = memo(({
+  capturedImage,
+  setVideoRef,
+  displacementStrength,
+  specularConstant,
+  glassDistortion,
+  baseFrequency
 }) => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    let stream = null;
-
-    const startWebcam = async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: { ideal: 640 },
-            height: { ideal: 480 },
-            facingMode: 'user'
-          }
-        });
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        console.error('Error accessing webcam:', err);
-      }
-    };
-
-    startWebcam();
-
-    return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
-  }, []);
-
-  const baseFrequency = 0.03 / Math.max(0.1, noiseScale);
-  const saturation = 1 - Math.max(0, Math.min(1, grayscale));
-
-  const cssVariables = {
-    '--blur-strength': `${blurStrength}px`,
-    '--metalness': metalness,
-    '--roughness': roughness,
-    '--overlay-color': overlayColor,
-    '--text-color': color,
-    '--saturation': saturation
-  };
-
   return (
-    <div
-      className={`relative w-[320px] h-[500px] rounded-[20px] overflow-hidden bg-[#1a1a1a] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.1)_inset] isolate font-sans ${className}`}
-      style={{ ...style, ...cssVariables }}>
+    <>
       <svg
         className="absolute w-0 h-0 pointer-events-none opacity-0"
         aria-hidden="true">
@@ -114,22 +63,175 @@ const ReflectiveCard = ({
           </filter>
         </defs>
       </svg>
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        muted
-        className="absolute top-0 left-0 w-full h-full object-cover scale-[1.2] -scale-x-100 z-0 opacity-90 transition-[filter] duration-300"
-        style={{
-          filter:
-            'saturate(var(--saturation, 0)) contrast(120%) brightness(110%) blur(var(--blur-strength, 12px)) url(#metallic-displacement)'
-        }} />
+      {capturedImage ? (
+        <img
+          src={capturedImage}
+          alt="Captured visitor"
+          className="absolute top-0 left-0 w-full h-full object-cover scale-[1.2] z-0 opacity-90 transition-[filter] duration-300"
+          style={{
+            filter:
+              'saturate(var(--saturation, 0)) contrast(120%) brightness(110%) blur(var(--blur-strength, 12px)) url(#metallic-displacement)'
+          }}
+        />
+      ) : (
+        <video
+          ref={setVideoRef}
+          autoPlay
+          playsInline
+          muted
+          className="absolute top-0 left-0 w-full h-full object-cover scale-[1.2] -scale-x-100 z-0 opacity-90 transition-[filter] duration-300"
+          style={{
+            filter:
+              'saturate(var(--saturation, 0)) contrast(120%) brightness(110%) blur(var(--blur-strength, 12px)) url(#metallic-displacement)'
+          }}
+        />
+      )}
       <div
         className="absolute inset-0 z-10 opacity-[var(--roughness,0.4)] pointer-events-none bg-[url('data:image/svg+xml,%3Csvg%20viewBox%3D%270%200%20200%20200%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cfilter%20id%3D%27noiseFilter%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.8%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%23noiseFilter)%27%2F%3E%3C%2Fsvg%3E')] mix-blend-overlay" />
       <div
         className="absolute inset-0 z-20 bg-[linear-gradient(135deg,rgba(255,255,255,0.4)_0%,rgba(255,255,255,0.1)_40%,rgba(255,255,255,0)_50%,rgba(255,255,255,0.1)_60%,rgba(255,255,255,0.3)_100%)] pointer-events-none mix-blend-overlay opacity-[var(--metalness,1)]" />
       <div
         className="absolute inset-0 rounded-[20px] p-[1px] bg-[linear-gradient(135deg,rgba(255,255,255,0.8)_0%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.6)_100%)] [mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] z-20 pointer-events-none" />
+    </>
+  );
+});
+CardBackground.displayName = 'CardBackground';
+
+
+const ReflectiveCard = forwardRef(({
+  name = '',
+  role = '',
+  blurStrength = 12,
+  color = 'white',
+  metalness = 1,
+  roughness = 0.4,
+  overlayColor = 'rgba(255, 255, 255, 0.1)',
+  displacementStrength = 20,
+  noiseScale = 1,
+  specularConstant = 1.2,
+  grayscale = 1,
+  glassDistortion = 0,
+  className = '',
+  style = {},
+  capturedImage = null,
+  onCameraStatusChange = null
+}, ref) => {
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
+  const onCameraStatusChangeRef = useRef(onCameraStatusChange);
+
+  useEffect(() => {
+    onCameraStatusChangeRef.current = onCameraStatusChange;
+  }, [onCameraStatusChange]);
+
+  const setVideoRef = useCallback((element) => {
+    videoRef.current = element;
+    if (element && streamRef.current) {
+      element.srcObject = streamRef.current;
+    }
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    capturePhoto: () => {
+      if (!videoRef.current) return null;
+      const video = videoRef.current;
+
+      if (video.readyState < 2) {
+        console.warn("Video not ready for capture");
+        return null;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        // Mirror the canvas context so the captured photo matches the mirrored preview
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        return canvas.toDataURL('image/png');
+      }
+      return null;
+    }
+  }));
+
+  useEffect(() => {
+    let stream = null;
+
+    const startWebcam = async () => {
+      try {
+        if (onCameraStatusChangeRef.current) {
+          onCameraStatusChangeRef.current('loading');
+        }
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 640 },
+            height: { ideal: 480 },
+            facingMode: 'user'
+          }
+        });
+
+        streamRef.current = stream;
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+
+        if (onCameraStatusChangeRef.current) {
+          onCameraStatusChangeRef.current('active');
+        }
+      } catch (err) {
+        console.error('Error accessing webcam:', err);
+        if (onCameraStatusChangeRef.current) {
+          onCameraStatusChangeRef.current('inactive');
+        }
+        if (err.name === 'NotAllowedError') {
+          toast.error('📷 We’re ready for your photo! Just allow camera access to get started', {
+            position: 'top-center',
+            style: {
+              border: '2px solid black',
+              borderRadius: '0',
+              fontWeight: 'bold',
+            }
+          });
+        }
+      }
+    };
+
+    startWebcam();
+
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []);
+
+  const baseFrequency = 0.03 / Math.max(0.1, noiseScale);
+  const saturation = 1 - Math.max(0, Math.min(1, grayscale));
+
+  const cssVariables = {
+    '--blur-strength': `${blurStrength}px`,
+    '--metalness': metalness,
+    '--roughness': roughness,
+    '--overlay-color': overlayColor,
+    '--text-color': color,
+    '--saturation': saturation
+  };
+
+  return (
+    <div
+      className={`relative w-[320px] h-[500px] rounded-[20px] overflow-hidden bg-[#1a1a1a] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.1)_inset] isolate font-sans ${className}`}
+      style={{ ...style, ...cssVariables }}>
+      <CardBackground
+        capturedImage={capturedImage}
+        setVideoRef={setVideoRef}
+        displacementStrength={displacementStrength}
+        specularConstant={specularConstant}
+        glassDistortion={glassDistortion}
+        baseFrequency={baseFrequency}
+      />
       <div
         className="relative z-10 h-full flex flex-col justify-between p-8 text-[var(--text-color,white)] bg-[var(--overlay-color,rgba(255,255,255,0.05))]">
         <div
@@ -162,6 +264,8 @@ const ReflectiveCard = ({
       </div>
     </div>
   );
-};
+});
+
+ReflectiveCard.displayName = 'ReflectiveCard';
 
 export default ReflectiveCard;

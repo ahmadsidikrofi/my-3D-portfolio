@@ -303,9 +303,8 @@ const AboutPage = () => {
                     </div>
                     <Link href="/contact">
                         <motion.button
-                            whileHover={{ scale: 1.05, x: 4 }}
                             whileTap={{ scale: 0.95 }}
-                            className="flex items-center gap-3 px-8 py-4 bg-[#3B82F6] text-black font-black uppercase tracking-wider text-sm border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow cursor-pointer"
+                            className="flex items-center gap-3 px-8 py-4 bg-[#3B82F6] text-black font-black uppercase tracking-wider text-sm border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0_0_#000] hover:translate-y-1 hover:translate-x-1 transition-all cursor-pointer"
                         >
                             Get in Touch
                             <ArrowRight size={20} strokeWidth={3} className="" />
