@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { projects } from "@/constants";
 import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
+import SpotlightMemeFinder from "@/components/SpotlightMemeFinder";
 
 const GithubIcon = ({ size = 16, className = "" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -28,7 +29,7 @@ const ProjectsPage = () => {
                     scrollbar-width: none;
                 }
             `}} />
-            <ScrollStack className="hide-scroll" itemStackDistance={30} blurAmount={2}>
+            <ScrollStack className="hide-scroll" itemStackDistance={25} blurAmount={2}>
                 {/* ── Card 1 : Hero ── */}
                 <ScrollStackItem itemClassName={`${CARD_CLASS} !shadow-none !border-0`}>
                     <div className="relative px-8 py-0 md:px-16 bg-[#f4f4f4] dark:bg-[#0a0a0a]">
@@ -115,7 +116,12 @@ const ProjectsPage = () => {
                     </ScrollStackItem>
                 ))}
 
-                {/* ── Card 8 : CTA ── */}
+                {/* ── Easter Egg : Spotlight Meme Finder ── */}
+                <ScrollStackItem itemClassName={`${CARD_CLASS} !shadow-none !border-0`}>
+                    <SpotlightMemeFinder />
+                </ScrollStackItem>
+
+                {/* ── Card : CTA ── */}
                 <ScrollStackItem
                     itemClassName={`${CARD_CLASS} !shadow-[12px_12px_0px_0px_rgba(59,130,246,1)] dark:!shadow-[12px_12px_0px_0px_rgba(0,255,153,1)]`}
                 >
