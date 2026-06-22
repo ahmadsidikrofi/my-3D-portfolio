@@ -15,8 +15,9 @@ const VisitorPhotobooth = () => {
     const [displacementStrength, setDisplacementStrength] = useState([0])
     const [noiseScale, setNoiseScale] = useState([1])
     const [glassDistortion, setGlassDistortion] = useState([13])
-    const [specularConstant, setSpecularConstant] = useState([3.3])
+    const [specularConstant, setSpecularConstant] = useState([5])
     const [grayscale, setGrayscale] = useState([0.15])
+    const [mirrorCamera, setMirrorCamera] = useState(true)
     const [cameraStatus, setCameraStatus] = useState('loading') // 'loading' | 'active' | 'inactive'
     const [capturedImage, setCapturedImage] = useState(null)
     const cardRef = useRef(null)
@@ -123,6 +124,7 @@ const VisitorPhotobooth = () => {
                                 grayscale={grayscale[0]}
                                 capturedImage={capturedImage}
                                 onCameraStatusChange={setCameraStatus}
+                                mirror={mirrorCamera}
                             />
                         </div>
 
@@ -203,6 +205,18 @@ const VisitorPhotobooth = () => {
                                         className="w-full bg-[#f4f4f4] dark:bg-[#0a0a0a] border-4 border-black dark:border-white p-3 font-mono text-base uppercase focus:outline-none focus:ring-4 focus:ring-[#3B82F6] dark:focus:ring-[#00FF99] transition-all"
                                     />
                                 </div>
+                                <div className="flex items-center gap-3 mt-4 pt-1">
+                                    <input
+                                        id="mirror-camera-toggle"
+                                        type="checkbox"
+                                        checked={mirrorCamera}
+                                        onChange={(e) => setMirrorCamera(e.target.checked)}
+                                        className="w-5 h-5 accent-[#3B82F6] dark:accent-[#00FF99] cursor-pointer border-4 border-black"
+                                    />
+                                    <label htmlFor="mirror-camera-toggle" className="font-mono text-sm uppercase tracking-wider font-bold cursor-pointer select-none">
+                                        Mirror Camera Feed
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
@@ -226,7 +240,7 @@ const VisitorPhotobooth = () => {
                                 <SliderModern label="Warp Strength" value={displacementStrength} onChange={setDisplacementStrength} min={0} max={50} step={1} format={{ maximumFractionDigits: 0 }} />
                                 <SliderModern label="Warp Scale" value={noiseScale} onChange={setNoiseScale} min={0.1} max={5} step={0.1} />
                                 <SliderModern label="Glass Distort" value={glassDistortion} onChange={setGlassDistortion} min={0} max={30} step={1} format={{ maximumFractionDigits: 0 }} />
-                                <SliderModern label="Shininess" value={specularConstant} onChange={setSpecularConstant} min={0} max={10} step={0.1} />
+                                <SliderModern label="Shininess" value={specularConstant} onChange={setSpecularConstant} min={0} max={5} step={0.1} />
                             </div>
                         </div>
 

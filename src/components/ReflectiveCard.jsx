@@ -10,7 +10,9 @@ const CardBackground = memo(({
   displacementStrength,
   specularConstant,
   glassDistortion,
-  baseFrequency
+  baseFrequency,
+  surfaceScale,
+  mirror
 }) => {
   return (
     <>
@@ -34,7 +36,7 @@ const CardBackground = memo(({
               result="rippled" />
             <feSpecularLighting
               in="noiseAlpha"
-              surfaceScale={displacementStrength}
+              surfaceScale={surfaceScale}
               specularConstant={specularConstant}
               specularExponent="20"
               lightingColor="#ffffff"
@@ -67,10 +69,11 @@ const CardBackground = memo(({
         <img
           src={capturedImage}
           alt="Captured visitor"
-          className="absolute top-0 left-0 w-full h-full object-cover scale-[1.2] z-0 opacity-90 transition-[filter] duration-300"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 opacity-90 transition-[filter] duration-300"
           style={{
+            transform: `scale(1.2) ${mirror ? 'scaleX(-1)' : 'scaleX(1)'}`,
             filter:
-              'saturate(var(--saturation, 0)) contrast(120%) brightness(110%) blur(var(--blur-strength, 12px)) url(#metallic-displacement)'
+              'saturate(calc(var(--saturation, 0) * 1.2)) contrast(120%) brightness(110%) blur(var(--blur-strength, 12px)) url(#metallic-displacement)'
           }}
         />
       ) : (
@@ -79,19 +82,20 @@ const CardBackground = memo(({
           autoPlay
           playsInline
           muted
-          className="absolute top-0 left-0 w-full h-full object-cover scale-[1.2] -scale-x-100 z-0 opacity-90 transition-[filter] duration-300"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 opacity-90 transition-[filter] duration-300"
           style={{
+            transform: `scale(1.2) ${mirror ? 'scaleX(-1)' : 'scaleX(1)'}`,
             filter:
-              'saturate(var(--saturation, 0)) contrast(120%) brightness(110%) blur(var(--blur-strength, 12px)) url(#metallic-displacement)'
+              'saturate(calc(var(--saturation, 0) * 1.2)) contrast(120%) brightness(110%) blur(var(--blur-strength, 12px)) url(#metallic-displacement)'
           }}
         />
       )}
       <div
         className="absolute inset-0 z-10 opacity-[var(--roughness,0.4)] pointer-events-none bg-[url('data:image/svg+xml,%3Csvg%20viewBox%3D%270%200%20200%20200%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cfilter%20id%3D%27noiseFilter%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.8%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%23noiseFilter)%27%2F%3E%3C%2Fsvg%3E')] mix-blend-overlay" />
       <div
-        className="absolute inset-0 z-20 bg-[linear-gradient(135deg,rgba(255,255,255,0.4)_0%,rgba(255,255,255,0.1)_40%,rgba(255,255,255,0)_50%,rgba(255,255,255,0.1)_60%,rgba(255,255,255,0.3)_100%)] pointer-events-none mix-blend-overlay opacity-[var(--metalness,1)]" />
+        className="absolute inset-0 z-20 bg-[linear-gradient(135deg,rgba(255,255,255,0.15)_0%,rgba(255,255,255,0.05)_40%,rgba(255,255,255,0)_50%,rgba(255,255,255,0.05)_60%,rgba(255,255,255,0.1)_100%)] pointer-events-none mix-blend-overlay opacity-[var(--metalness,1)]" />
       <div
-        className="absolute inset-0 rounded-[20px] p-[1px] bg-[linear-gradient(135deg,rgba(255,255,255,0.8)_0%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.6)_100%)] [mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] z-20 pointer-events-none" />
+        className="absolute inset-0 rounded-[20px] p-1 bg-[linear-gradient(135deg,rgba(255,255,255,0.8)_0%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.6)_100%)] [mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] z-20 pointer-events-none" />
     </>
   );
 });
@@ -105,12 +109,14 @@ const ReflectiveCard = forwardRef(({
   color = 'white',
   metalness = 1,
   roughness = 0.4,
-  overlayColor = 'rgba(255, 255, 255, 0.1)',
+  overlayColor = 'rgba(0, 0, 0, 0.1)',
   displacementStrength = 20,
   noiseScale = 1,
   specularConstant = 1.2,
   grayscale = 1,
   glassDistortion = 0,
+  surfaceScale = 2,
+  mirror = true,
   className = '',
   style = {},
   capturedImage = null,
@@ -146,9 +152,6 @@ const ReflectiveCard = forwardRef(({
       canvas.height = video.videoHeight || 480;
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        // Mirror the canvas context so the captured photo matches the mirrored preview
-        ctx.translate(canvas.width, 0);
-        ctx.scale(-1, 1);
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         return canvas.toDataURL('image/png');
       }
@@ -225,12 +228,15 @@ const ReflectiveCard = forwardRef(({
       className={`relative w-[320px] h-[500px] rounded-[20px] overflow-hidden bg-[#1a1a1a] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.1)_inset] isolate font-sans ${className}`}
       style={{ ...style, ...cssVariables }}>
       <CardBackground
+        key={capturedImage ? 'captured' : 'live'}
         capturedImage={capturedImage}
         setVideoRef={setVideoRef}
         displacementStrength={displacementStrength}
         specularConstant={specularConstant}
         glassDistortion={glassDistortion}
         baseFrequency={baseFrequency}
+        surfaceScale={surfaceScale}
+        mirror={mirror}
       />
       <div
         className="relative z-10 h-full flex flex-col justify-between p-8 text-[var(--text-color,white)] bg-[var(--overlay-color,rgba(255,255,255,0.05))]">

@@ -265,10 +265,22 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
+  }
+}
+
+@keyframes pan {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 32px 32px;
   }
 }
