@@ -8,19 +8,24 @@ import { Island } from "@/models/island";
 import { Plane } from "@/models/plane";
 import Sky from "@/models/sky";
 import { Canvas } from "@react-three/fiber";
-import { Contact, House, Projector, User } from "lucide-react";
+import { FileText, MessageCircleCode, Projector, User } from "lucide-react";
 import { Suspense, useState } from "react";
 
 import { useRouter } from "next/navigation";
+import DreamyAudioPlayer from "@/components/DreamyAudioPlayer";
 
 export default function Home() {
-  const router = useRouter();
+  const router = useRouter()
+
+  const handleDownloadPDF = () => {
+    window.open('Ahmad_Sidik_Rofiudin_Software_Developer.pdf', '_blank')
+  }
 
   const items = [
-    { icon: <House size={18} color="white" />, label: 'Home', onClick: () => router.push('/'), className: 'top-28 left-6 sm:left-52', tooltipSide: 'bottom' },
+    { icon: <FileText size={18} color="white" />, label: 'Resume', onClick: handleDownloadPDF, className: 'top-28 left-6 sm:left-52', tooltipSide: 'bottom' },
     { icon: <User size={18} color="white" />, label: 'About', onClick: () => router.push('/about'), className: 'top-12 right-6 sm:right-52', tooltipSide: 'bottom' },
     { icon: <Projector size={18} color="white" />, label: 'Projects', onClick: () => router.push('/projects'), className: 'bottom-24 left-6 sm:left-52', tooltipSide: 'top' },
-    { icon: <Contact size={18} color="white" />, label: 'Contact', onClick: () => router.push('/contact'), className: 'bottom-8 right-6 sm:right-52', tooltipSide: 'top' },
+    { icon: <MessageCircleCode size={18} color="white" />, label: 'Contact', onClick: () => router.push('/contact'), className: 'bottom-8 right-6 sm:right-52', tooltipSide: 'top' },
   ]
 
   const [isRotating, setIsRotating] = useState(false)
@@ -116,6 +121,8 @@ export default function Home() {
           />
         </Suspense>
       </Canvas>
+
+      <DreamyAudioPlayer />
     </section>
   );
 }

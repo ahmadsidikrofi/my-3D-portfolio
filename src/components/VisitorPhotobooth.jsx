@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import ReflectiveCard from './ReflectiveCard'
-import SliderModern from './shadcn-space/radix/slider/slider-04'
+import SliderModern from './shadcn-space/radix/slider/SliderModern'
 import { toPng } from 'html-to-image'
 import { toast } from 'react-hot-toast'
 

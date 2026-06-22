@@ -53,7 +53,7 @@ const EducationPinnedScroll = () => {
             damping: 12,
             stiffness: 100,
           }}
-          className="absolute text-[15vw] font-black uppercase text-black select-none tracking-tighter leading-none whitespace-nowrap z-0 pointer-events-none"
+          className="absolute text-[10vw] font-black uppercase text-black select-none tracking-tighter leading-none whitespace-nowrap z-0 pointer-events-none"
         >
           EDUCATION
         </motion.h2>
