@@ -12,27 +12,27 @@ const CertificationsPinnedScroll = () => {
   });
 
   // Card 1 (IBM)
-  const x1 = useTransform(scrollYProgress, [0.0, 0.18, 0.72, 0.84], ["120vw", "0vw", "0vw", "0vw"]);
-  const y1 = useTransform(scrollYProgress, [0.0, 0.18, 0.72, 0.84], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot1 = useTransform(scrollYProgress, [0.0, 0.18], [40, 0]);
+  const x1 = useTransform(scrollYProgress, [0.0, 0.2, 0.7, 0.8], ["120vw", "0vw", "0vw", "0vw"]);
+  const y1 = useTransform(scrollYProgress, [0.0, 0.2, 0.7, 0.8], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot1 = useTransform(scrollYProgress, [0.0, 0.2], [40, 0]);
 
   // Card 2 (HackerRank)
-  const x2 = useTransform(scrollYProgress, [0.1, 0.28, 0.79, 0.91], ["120vw", "0vw", "0vw", "0vw"]);
-  const y2 = useTransform(scrollYProgress, [0.1, 0.28, 0.79, 0.91], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot2 = useTransform(scrollYProgress, [0.1, 0.28], [40, 0]);
+  const x2 = useTransform(scrollYProgress, [0.1, 0.3, 0.75, 0.85], ["120vw", "0vw", "0vw", "0vw"]);
+  const y2 = useTransform(scrollYProgress, [0.1, 0.3, 0.75, 0.85], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot2 = useTransform(scrollYProgress, [0.1, 0.3], [40, 0]);
 
   // Card 3 (BNSP)
-  const x3 = useTransform(scrollYProgress, [0.2, 0.38, 0.86, 0.97], ["120vw", "0vw", "0vw", "0vw"]);
-  const y3 = useTransform(scrollYProgress, [0.2, 0.38, 0.86, 0.97], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot3 = useTransform(scrollYProgress, [0.2, 0.38], [40, 0]);
+  const x3 = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 0.9], ["120vw", "0vw", "0vw", "0vw"]);
+  const y3 = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 0.9], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot3 = useTransform(scrollYProgress, [0.2, 0.4], [40, 0]);
 
   // Card 4 (Udemy)
-  const x4 = useTransform(scrollYProgress, [0.3, 0.50, 0.93, 1.0], ["120vw", "0vw", "0vw", "0vw"]);
-  const y4 = useTransform(scrollYProgress, [0.3, 0.50, 0.93, 1.0], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot4 = useTransform(scrollYProgress, [0.3, 0.50], [40, 0]);
+  const x4 = useTransform(scrollYProgress, [0.3, 0.5, 0.85, 0.95], ["120vw", "0vw", "0vw", "0vw"]);
+  const y4 = useTransform(scrollYProgress, [0.3, 0.5, 0.85, 0.95], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot4 = useTransform(scrollYProgress, [0.3, 0.5], [40, 0]);
 
   return (
-    <div ref={containerRef} className="w-full relative h-[450vh] border-b-4 border-black dark:border-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '450vh' }}>
+    <div ref={containerRef} className="w-full relative h-[200vh] border-b-4 border-black dark:border-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '450vh' }}>
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#111] flex items-center justify-center" style={{ contain: 'strict' }}>
 

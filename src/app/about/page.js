@@ -315,9 +315,6 @@ const AboutPage = () => {
 
                 {/* Certifications Section */}
                 <CertificationsPinnedScroll />
-                {/* <CertificationsPinnedScroll /> */}
-
-                {/* <CertificationsPinnedScroll /> */}
 
 
                 {/* Visitor Photobooth Section */}

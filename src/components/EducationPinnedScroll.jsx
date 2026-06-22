@@ -11,10 +11,6 @@ const EducationPinnedScroll = () => {
     offset: ['start start', 'end end'],
   })
 
-  const isInView = useInView(containerRef, {
-    amount: 0.3,
-  });
-
   // Card 1 (S2) animations
   const y1 = useTransform(scrollYProgress, [0.0, 0.3, 0.8, 1], ["100vh", "0vh", "0vh", "-50vh"]);
   const rotate1 = useTransform(scrollYProgress, [0.0, 0.3, 0.8, 1], [-15, 0, 0, 10]);
@@ -26,7 +22,7 @@ const EducationPinnedScroll = () => {
   const scale2 = useTransform(scrollYProgress, [0.15, 0.45, 0.8, 1], [0.8, 1, 1, 0.5]);
 
   return (
-    <div ref={containerRef} className="w-full relative h-[400vh] border-b-4 border-black dark:border-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '400vh' }}>
+    <div ref={containerRef} className="w-full relative h-[300vh] border-b-4 border-black dark:border-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '400vh' }}>
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#f4f4f4] flex items-center justify-center" style={{ contain: 'strict' }}>
         <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
