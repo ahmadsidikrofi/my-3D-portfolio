@@ -72,7 +72,7 @@ const ProjectsPage = () => {
                                     <img
                                         src={project.iconUrl}
                                         alt={project.name}
-                                        className="w-1/2 h-1/2 object-contain"
+                                        className="w-full h-full object-cover rounded-xl"
                                     />
                                 </div>
                             </div>
