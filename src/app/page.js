@@ -12,7 +12,6 @@ import { FileText, MessageCircleCode, Projector, User } from "lucide-react";
 import { Suspense, useState } from "react";
 
 import { useRouter } from "next/navigation";
-import DreamyAudioPlayer from "@/components/DreamyAudioPlayer";
 
 export default function Home() {
   const router = useRouter()
@@ -121,8 +120,6 @@ export default function Home() {
           />
         </Suspense>
       </Canvas>
-
-      <DreamyAudioPlayer />
     </section>
   );
 }

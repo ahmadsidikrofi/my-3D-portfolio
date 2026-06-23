@@ -5,6 +5,7 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import { projects } from "@/constants";
 import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
 import SpotlightMemeFinder from "@/components/SpotlightMemeFinder";
+import TheVergeMenu from "@/components/TheVergeMenu";
 
 const GithubIcon = ({ size = 16, className = "" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -19,6 +20,7 @@ const CARD_CLASS =
 const ProjectsPage = () => {
     return (
         <div className="h-screen overflow-hidden bg-[#f4f4f4] dark:bg-[#0a0a0a] text-neutral-900 dark:text-white">
+            <TheVergeMenu />
             <style dangerouslySetInnerHTML={{
                 __html: `
                 .hide-scroll::-webkit-scrollbar {

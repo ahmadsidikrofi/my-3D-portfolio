@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import ClickSpark from "@/components/ClickSpark";
 import "./globals.css";
+import { AudioProvider } from "@/context/AudioContext";
+import GlobalPlayer from "@/components/GlobalPlayer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,17 +29,20 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ClickSpark
-          sparkColor="#000"
-          sparkSize={14}
-          sparkRadius={25}
-          sparkCount={7}
-          duration={800}
-          className="flex-1 flex flex-col w-full relative"
-        >
-          {children}
-        </ClickSpark>
-        <Toaster position="bottom-right" />
+        <AudioProvider>
+          <ClickSpark
+            sparkColor="#000"
+            sparkSize={14}
+            sparkRadius={25}
+            sparkCount={7}
+            duration={800}
+            className="flex-1 flex flex-col w-full relative"
+          >
+            {children}
+          </ClickSpark>
+          <GlobalPlayer />
+          <Toaster position="bottom-right" />
+        </AudioProvider>
       </body>
     </html>
   );

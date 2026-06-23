@@ -9,6 +9,7 @@ import { Canvas } from "@react-three/fiber"
 import { Fox } from "@/models/fox"
 import Loader from "@/components/Loader"
 import toast, { Toaster } from "react-hot-toast"
+import TheVergeMenu from "@/components/TheVergeMenu"
 
 const toastStyle = {
     style: {
@@ -178,6 +179,7 @@ const ContactPage = () => {
 
     return (
         <section className="relative flex flex-col min-h-[calc(100vh-80px)] w-full bg-[#f4f4f4] overflow-hidden">
+            <TheVergeMenu />
             <Toaster position="top-center" reverseOrder={false} />
 
             {/* Header Section */}

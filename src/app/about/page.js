@@ -16,6 +16,7 @@ import VisitorPhotobooth from "@/components/VisitorPhotobooth"
 import PixelBlast from "@/components/PixelBlast"
 import EducationPinnedScroll from "@/components/EducationPinnedScroll"
 import CertificationsPinnedScroll from "@/components/CertificationsPinnedScroll"
+import TheVergeMenu from "@/components/TheVergeMenu"
 import { ReactLenis } from 'lenis/react'
 
 const fadeUp = {
@@ -94,6 +95,7 @@ const SkillCard = ({ skill, index }) => {
 const AboutPage = () => {
     return (
         <ReactLenis root>
+            <TheVergeMenu />
             <section className="w-full min-h-screen bg-white dark:bg-[#0a0a0a] text-neutral-900 dark:text-white max-w-[100vw] overflow-clip">
 
                 {/* Hero Section */}
