@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import confetti from 'canvas-confetti'
+import useSound from 'use-sound'
 
 // ── Constants ──
 const GROW_DURATION = 4000   // ms to fully reveal
@@ -12,6 +13,7 @@ const MAX_MASK = 100         // % radius for full coverage
 const InteractiveProfilePic = () => {
     const [isHovering, setIsHovering] = useState(false)
     const [hasExploded, setHasExploded] = useState(false)
+    const [playHorns] = useSound('/assets/airhorns.mp3', { volume: 0.5 })
 
     const containerRef = useRef(null)
     const revealRef = useRef(null)
@@ -72,7 +74,8 @@ const InteractiveProfilePic = () => {
         applyMask()
         setHasExploded(true)
         phase.current = 'revealed'
-    }, [applyMask])
+        playHorns()
+    }, [applyMask, playHorns])
 
     // ── Single RAF loop that handles both grow & shrink ──
     const tick = useCallback((ts) => {

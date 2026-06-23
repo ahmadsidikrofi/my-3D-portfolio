@@ -162,7 +162,7 @@ export const projects = [
         category: "Terminal's-Like Portfolio",
         description: 'A fully interactive, terminal-inspired portfolio powered by Google Gemini 2.5 Flash. It replaces the traditional scrolling experience with a functional command-line interface, allowing visitors to execute commands or chat directly with an AI assistant to explore my technical background.',
         link: 'https://rofi-portfolio.vercel.app/',
-        gitHub: 'https://github.com/ahmadsidikrofi/my-portfolio',
+        github: 'https://github.com/ahmadsidikrofi/my-portfolio',
     },
     {
         iconUrl: '/assets/images/permakin.webp',
@@ -171,7 +171,7 @@ export const projects = [
         category: 'AI PLATFORM',
         description: 'An AI-driven sustainable fashion platform built with Next.js and Imagen 4. Designed to combat fast-fashion waste, it instantly detects clothing damage, generates DIY mending guides, drafts tailor instructions, and visualizes creative upcycling concepts for old garments.',
         link: 'https://permakin-135193409051.asia-southeast2.run.app/',
-        gitHub: 'https://github.com/ahmadsidikrofi/juara-vibe-coding-project',
+        github: 'https://github.com/ahmadsidikrofi/juara-vibe-coding-project',
     },
     {
         iconUrl: '/assets/images/amalin.webp',
@@ -180,7 +180,7 @@ export const projects = [
         category: 'PWA / PRODUCTIVITY',
         description: 'A privacy-first Progressive Web App (PWA) designed as a comprehensive Ramadan worship tracker. It consolidates scattered spiritual tools into a single, distraction-free environment with a premium glassmorphism UI, operating entirely without intrusive ads or background tracking.',
         link: 'https://amalin.vercel.app/',
-        gitHub: 'https://github.com/ahmadsidikrofi/ramadan-tracker',
+        github: 'https://github.com/ahmadsidikrofi/ramadan-tracker',
     },
     {
         iconUrl: '/assets/images/resumind.webp',
@@ -189,7 +189,7 @@ export const projects = [
         category: 'SAAS / AI',
         description: 'An AI-powered SaaS platform that transforms the tedious process of resume building into a real-time, interactive experience. It tackles formatting inconsistencies and writer\'s block by utilizing AI to draft professional summaries and industry-specific work achievements.',
         link: 'http://resumind-resume-builder.vercel.app/',
-        gitHub: 'https://github.com/ahmadsidikrofi/ai-resume-builder',
+        github: 'https://github.com/ahmadsidikrofi/ai-resume-builder',
     },
     {
         iconUrl: '/assets/images/converto.webp',
@@ -198,6 +198,6 @@ export const projects = [
         category: 'WEB APP / UTILITY',
         description: 'A limitless, browser-based multimedia converter for image, audio, and video files. Engineered with privacy at its core, it leverages WebAssembly and FFmpeg to process all files locally on the client side—meaning zero server uploads, no data retention, and absolute security.',
         link: 'https://converto-bay.vercel.app/',
-        gitHub: 'https://github.com/ahmadsidikrofi/converto',
+        github: 'https://github.com/ahmadsidikrofi/converto',
     },
 ];

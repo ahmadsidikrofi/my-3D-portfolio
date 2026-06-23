@@ -5,8 +5,8 @@ import React, { createContext, useContext, useState, useRef, useEffect } from 'r
 const AudioContext = createContext();
 
 const tracks = [
-  { title: 'Chill', src: '/assets/sakura.mp3' },
   { title: 'Medieval Cobblestone Village', src: '/assets/medieval_cobblestone_village.mp3' },
+  { title: 'Chill', src: '/assets/sakura.mp3' },
   { title: 'Interstellar', src: '/assets/interstellar.mp3' }
 ];
 
@@ -24,9 +24,56 @@ export const AudioProvider = ({ children }) => {
 
   useEffect(() => {
     if (audioRef.current && isPlaying) {
-      audioRef.current.play().catch(console.error);
+      audioRef.current.play().catch(console.error)
     }
   }, [currentTrackIndex, isPlaying]);
+
+  // Autoplay on mount, with a fallback to start playback on first user interaction if blocked
+  useEffect(() => {
+    let cleanupInteraction = null;
+
+    const attemptAutoplay = async () => {
+      if (!audioRef.current) return;
+      try {
+        await audioRef.current.play();
+        setIsPlaying(true);
+      } catch (error) {
+        console.log("Autoplay was blocked by the browser. Audio will play upon first interaction.", error);
+        
+        const startOnInteraction = async () => {
+          try {
+            if (audioRef.current) {
+              await audioRef.current.play();
+              setIsPlaying(true);
+            }
+            removeListeners();
+          } catch (err) {
+            console.error("Playback on interaction failed:", err);
+          }
+        };
+
+        const removeListeners = () => {
+          window.removeEventListener('click', startOnInteraction);
+          window.removeEventListener('keydown', startOnInteraction);
+          window.removeEventListener('touchstart', startOnInteraction);
+        };
+
+        window.addEventListener('click', startOnInteraction);
+        window.addEventListener('keydown', startOnInteraction);
+        window.addEventListener('touchstart', startOnInteraction);
+
+        cleanupInteraction = removeListeners;
+      }
+    };
+
+    attemptAutoplay();
+
+    return () => {
+      if (cleanupInteraction) {
+        cleanupInteraction();
+      }
+    };
+  }, []);
 
   const togglePlay = () => {
     if (!audioRef.current) return;

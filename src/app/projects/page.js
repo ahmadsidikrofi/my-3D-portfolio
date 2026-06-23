@@ -104,7 +104,7 @@ const ProjectsPage = () => {
                                     </Link>
 
                                     <Link
-                                        href={project.link}
+                                        href={project.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex items-center gap-2 px-6 py-3 bg-transparent text-black dark:text-white font-bold font-mono text-xs uppercase tracking-wider border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200"

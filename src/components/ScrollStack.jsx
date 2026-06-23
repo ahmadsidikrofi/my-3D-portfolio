@@ -1,9 +1,11 @@
-import { useLayoutEffect, useRef, useCallback } from 'react';
+'use client';
+import { useLayoutEffect, useRef, useCallback, useEffect } from 'react';
 import Lenis from 'lenis';
+import useSound from 'use-sound';
 
 export const ScrollStackItem = ({ children, itemClassName = '' }) => (
     <div
-        className={`scroll-stack-card relative w-full h-80 my-8 p-12 rounded-[40px] shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border origin-top will-change-transform ${itemClassName}`.trim()}
+        className={`scroll-stack-card relative w-full h-80 my-8 p-12 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border origin-top will-change-transform ${itemClassName}`.trim()}
         style={{
             backfaceVisibility: 'hidden',
             transformStyle: 'preserve-3d'
@@ -35,6 +37,8 @@ const ScrollStack = ({
     const cardsRef = useRef([]);
     const lastTransformsRef = useRef(new Map());
     const isUpdatingRef = useRef(false);
+    const prevPinnedRef = useRef([]);
+    const [playCardFlip] = useSound('/assets/card-flip.mp3', { volume: 0.15 });
 
     const calculateProgress = useCallback((scrollTop, start, end) => {
         if (scrollTop < start) return 0;
@@ -133,6 +137,13 @@ const ScrollStack = ({
                 translateY = pinEnd - cardTop + stackPositionPx + itemStackDistance * i;
             }
 
+            // Play flip sound precisely when transitioning to pinned (stacked) state
+            const wasPinned = prevPinnedRef.current[i] || false;
+            if (isPinned && !wasPinned && scrollTop > 10) {
+                playCardFlip();
+            }
+            prevPinnedRef.current[i] = isPinned;
+
             const newTransform = {
                 translateY: Math.round(translateY * 100) / 100,
                 scale: Math.round(scale * 1000) / 1000,
@@ -183,7 +194,8 @@ const ScrollStack = ({
         calculateProgress,
         parsePercentage,
         getScrollData,
-        getElementOffset
+        getElementOffset,
+        playCardFlip
     ]);
 
     const handleScroll = useCallback(() => {
@@ -286,6 +298,7 @@ const ScrollStack = ({
             cardsRef.current = [];
             transformsCache.clear();
             isUpdatingRef.current = false;
+            prevPinnedRef.current = [];
         };
     }, [
         itemDistance,
