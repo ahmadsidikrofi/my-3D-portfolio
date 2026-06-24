@@ -7,7 +7,11 @@ const AudioContext = createContext();
 const tracks = [
   { title: 'Medieval Cobblestone Village', src: '/assets/medieval_cobblestone_village.mp3' },
   { title: 'Chill', src: '/assets/sakura.mp3' },
-  { title: 'Interstellar', src: '/assets/interstellar.mp3' }
+  { title: 'Interstellar', src: '/assets/interstellar.mp3' },
+  { title: 'Stranger Things (Main Theme)', src: '/assets/stranger_things.mp3' },
+  { title: 'Study LoFi', src: '/assets/study_lofi.mp3' },
+  { title: 'Lofi 3:03 PM', src: '/assets/lofi_3_03.mp3' },
+  { title: 'Montagem Pegadora', src: '/assets/montagem_pegadora.mp3' },
 ];
 
 export const AudioProvider = ({ children }) => {
@@ -39,7 +43,7 @@ export const AudioProvider = ({ children }) => {
         setIsPlaying(true);
       } catch (error) {
         console.log("Autoplay was blocked by the browser. Audio will play upon first interaction.", error);
-        
+
         const startOnInteraction = async () => {
           try {
             if (audioRef.current) {
