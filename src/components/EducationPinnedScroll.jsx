@@ -70,7 +70,7 @@ const EducationPinnedScroll = () => {
                   Postgraduate
                 </span>
                 <h3 className="text-xl sm:text-2xl font-black uppercase leading-none tracking-tight">
-                  M.Kom. Information Systems
+                  Master's of Information Systems
                 </h3>
                 <p className="font-mono text-xs uppercase tracking-wider font-bold text-black/60 mt-2 mb-4">
                   Telkom University • 2026
@@ -95,7 +95,7 @@ const EducationPinnedScroll = () => {
                   Graduated
                 </span>
                 <h3 className="text-xl sm:text-2xl font-black uppercase leading-none tracking-tight">
-                  S1 Information Systems
+                  Bachelor's of Information Systems
                 </h3>
                 <p className="font-mono text-xs uppercase tracking-wider font-bold text-black/60 mt-2 mb-4">
                   Telkom University • 2024

@@ -17,21 +17,16 @@ const SpotlightMemeFinder = () => {
         if (showModal) return
         if (!hasMouseEntered) setHasMouseEntered(true)
 
-        if (targetRef.current && containerRef.current) {
-            const containerRect = containerRef.current.getBoundingClientRect()
+        if (targetRef.current) {
             const targetRect = targetRef.current.getBoundingClientRect()
 
-            // Calculate target center relative to the container
-            const targetX = (targetRect.left + targetRect.width / 2) - containerRect.left
-            const targetY = (targetRect.top + targetRect.height / 2) - containerRect.top
+            // Calculate target center
+            const targetCenterX = targetRect.left + targetRect.width / 2
+            const targetCenterY = targetRect.top + targetRect.height / 2
 
-            // Mouse position relative to the container
-            const mouseX = e.clientX - containerRect.left
-            const mouseY = e.clientY - containerRect.top
-
-            // Distance calculation
-            const dx = mouseX - targetX
-            const dy = mouseY - targetY
+            // Distance calculation using absolute viewport coordinates
+            const dx = e.clientX - targetCenterX
+            const dy = e.clientY - targetCenterY
             const distance = Math.sqrt(dx * dx + dy * dy)
 
             // Reveal target if distance is less than 80px
@@ -131,7 +126,7 @@ const SpotlightMemeFinder = () => {
                 )}
 
                 {/* Neon Smoke Trail Cursor effect */}
-                {!showModal && (
+                {!showModal && hasMouseEntered && (
                     <GhostCursor
                         className="absolute inset-0 pointer-events-none"
                         color="#00FF99"
