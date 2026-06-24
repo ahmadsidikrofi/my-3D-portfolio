@@ -109,7 +109,7 @@ const AboutPage = () => {
                         About / Profile
                     </motion.p>
 
-                    <div className="flex gap-6 justify-start items-center">
+                    <div className="flex max-sm:flex-col gap-6 justify-start items-center">
                         <InteractiveProfilePic />
                         <motion.h1
                             initial={{ opacity: 0, y: 50 }}
@@ -119,8 +119,8 @@ const AboutPage = () => {
                         >
                             Hello,
                             <br />
-                            I'm{" "}
-                            <span className="text-[#3B82F6] relative inline-block">
+                            I'm <span className="sm:hidden text-[#3B82F6]">Rofi</span>
+                            <span className="max-sm:hidden text-[#3B82F6] relative inline-block">
                                 <RotatingText
                                     texts={['Rofi', 'Software Dev', 'Full-Stack Dev', 'Backend Dev']}
                                     mainClassName="px-2 sm:px-2 md:px-3 bg-[#3B82F6] text-[#F4F4F4] overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded"
@@ -192,7 +192,7 @@ const AboutPage = () => {
 
                 {/* Experience Section */}
                 <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-[#f4f4f4] border-b-4 border-black dark:border-white text-neutral-900 relative overflow-hidden">
-                    <div className="absolute inset-0 w-full h-full z-0 pointer-events-auto">
+                    <div className="max-sm:hidden absolute inset-0 w-full h-full z-0 pointer-events-auto">
                         <PixelBlast
                             variant="square"
                             pixelSize={4}
