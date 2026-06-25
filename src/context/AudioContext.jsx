@@ -7,6 +7,7 @@ const AudioContext = createContext();
 const tracks = [
   { title: 'Medieval Cobblestone Village', src: '/assets/medieval_cobblestone_village.mp3' },
   { title: 'The Voice in My Heart', src: '/assets/the_voice_in_my_heart.mp3' },
+  { title: 'Kingdom Dance', src: '/assets/kingdom_dance.mp3' },
   { title: 'Chill', src: '/assets/sakura.mp3' },
   { title: 'Interstellar', src: '/assets/interstellar.mp3' },
   { title: 'Stranger Things (Main Theme)', src: '/assets/stranger_things.mp3' },
