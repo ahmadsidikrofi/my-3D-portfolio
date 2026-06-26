@@ -161,7 +161,6 @@ const AboutPage = () => {
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: false, amount: 0.2 }}
                     >
                         <motion.p
                             variants={fadeUp}
@@ -181,7 +180,6 @@ const AboutPage = () => {
                             className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 sm:gap-5"
                             initial="hidden"
                             whileInView="visible"
-                            viewport={{ once: false, amount: 0.1 }}
                         >
                             {skills.map((skill, i) => (
                                 <SkillCard key={skill.name} skill={skill} index={i} />

@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "3D Portfolio",
-  description: "3D Portfolio",
+  title: "Rofi's Lab Portfolio",
+  description: "Rofi's Portfolio: The portfolio of Ahmad Sidik Rofiudin. A Software Engineer building reliable real-time systems and AI integrations for modern business solutions",
 };
 
 export default function RootLayout({ children }) {

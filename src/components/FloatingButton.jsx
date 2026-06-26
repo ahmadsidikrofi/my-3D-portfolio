@@ -2,15 +2,18 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import useSound from "use-sound";
 
 export default function FloatingButton({ icon, label, onClick, className, tooltipSide = 'bottom', delay = 0 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isPopped, setIsPopped] = useState(false);
+  const [playPop] = useSound('/assets/pop.mp3', { volume: 0.5 })
 
   const handleClick = (e) => {
     if (isPopped) return;
+    playPop()
     setIsPopped(true);
-    setIsHovered(false); // Sembunyikan tooltip seketika saat pecah
+    setIsHovered(false)
 
     // Beri jeda 300ms agar animasi pecah terlihat sebelum pindah rute/aksi
     setTimeout(() => {
@@ -54,23 +57,23 @@ export default function FloatingButton({ icon, label, onClick, className, toolti
               <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#3b82f6] group-hover:bg-blue-400 transition-colors rounded-[2px] rotate-45 -z-10" />
 
               {/* Tali Balon / Wavy String */}
-              <svg 
-                width="16" 
-                height="50" 
-                viewBox="0 0 16 50" 
+              <svg
+                width="16"
+                height="50"
+                viewBox="0 0 16 50"
                 className="absolute top-full left-1/2 -translate-x-1/2 -z-20 mt-1 pointer-events-none"
               >
-                <motion.path 
-                  animate={{ 
+                <motion.path
+                  animate={{
                     d: [
                       "M8,0 C16,15 0,30 8,40 C16,45 0,50 8,50",
                       "M8,0 C0,15 16,30 8,40 C0,45 16,50 8,50",
                       "M8,0 C16,15 0,30 8,40 C16,45 0,50 8,50"
-                    ] 
+                    ]
                   }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: delay }}
-                  fill="none" 
-                  stroke="rgba(255,255,255,0.6)" 
+                  fill="none"
+                  stroke="rgba(255,255,255,0.6)"
                   strokeWidth="1.5"
                 />
               </svg>
@@ -88,8 +91,8 @@ export default function FloatingButton({ icon, label, onClick, className, toolti
                 <motion.div
                   key={i}
                   initial={{ x: 0, y: 0, scale: 1, opacity: 1 }}
-                  animate={{ 
-                    x: Math.cos((angle * Math.PI) / 180) * radius, 
+                  animate={{
+                    x: Math.cos((angle * Math.PI) / 180) * radius,
                     y: Math.sin((angle * Math.PI) / 180) * radius,
                     scale: 0,
                     opacity: 0
@@ -110,9 +113,8 @@ export default function FloatingButton({ icon, label, onClick, className, toolti
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: tooltipSide === 'bottom' ? -10 : 10, scale: 0.9 }}
             transition={{ duration: 0.2 }}
-            className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-neutral-700 bg-[#120F17] px-3 py-1.5 text-xs font-semibold text-white shadow-xl ${
-              tooltipSide === 'bottom' ? 'top-[calc(100%+65px)]' : 'bottom-[calc(100%+25px)]'
-            }`}
+            className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-neutral-700 bg-[#120F17] px-3 py-1.5 mt-4 text-xs font-semibold text-white shadow-xl ${tooltipSide === 'bottom' ? 'top-[calc(100%+65px)]' : 'bottom-[calc(100%+25px)]'
+              }`}
           >
             {label}
           </motion.div>
