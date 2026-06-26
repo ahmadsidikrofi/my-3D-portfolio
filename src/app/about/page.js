@@ -192,7 +192,7 @@ const AboutPage = () => {
 
                 {/* Experience Section */}
                 <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-[#f4f4f4] border-b-4 border-black dark:border-white text-neutral-900 relative overflow-hidden">
-                    <div className="max-sm:hidden absolute inset-0 w-full h-full z-0 pointer-events-auto">
+                    {/* <div className="max-sm:hidden absolute inset-0 w-full h-full z-0 pointer-events-auto">
                         <PixelBlast
                             variant="square"
                             pixelSize={4}
@@ -212,9 +212,9 @@ const AboutPage = () => {
                             edgeFade={0.25}
                             transparent={true}
                         />
-                    </div>
+                    </div> */}
 
-                    {/* <div className="absolute inset-0 opacity-10 dark:opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,_#000_2px,_transparent_2px)] dark:bg-[radial-gradient(circle_at_center,_#fff_2px,_transparent_2px)] bg-[length:32px_32px]" /> */}
+                    <div className="absolute inset-0 opacity-10 dark:opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,_#000_2px,_transparent_2px)] dark:bg-[radial-gradient(circle_at_center,_#fff_2px,_transparent_2px)] bg-[length:32px_32px]" />
 
 
                     <motion.div

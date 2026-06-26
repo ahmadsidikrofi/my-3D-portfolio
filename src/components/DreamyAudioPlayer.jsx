@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Play, Pause, SkipBack, SkipForward, Volume2, Music } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SliderModern from './shadcn-space/radix/slider/slider-04';
 import { useAudioContext } from '@/context/AudioContext';
@@ -9,9 +9,20 @@ import { useAudioContext } from '@/context/AudioContext';
 const DreamyAudioPlayer = () => {
   const { isPlaying, currentTrackIndex, volume, setVolume, togglePlay, skipForward, skipBack, tracks } = useAudioContext();
 
-  // Expandable State
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 639px)').matches);
+    checkMobile(); // Check on mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleMouseEnter = () => { if (!isMobile) setIsExpanded(true); };
+  const handleMouseLeave = () => { if (!isMobile) { setIsExpanded(false); setIsVolumeVisible(false); } };
+  const handleClick = () => { if (isMobile) setIsExpanded(!isExpanded); };
 
   const handleVolumeChange = (newVolumeArr) => {
     setVolume(newVolumeArr[0] / 100);
@@ -19,66 +30,68 @@ const DreamyAudioPlayer = () => {
 
   return (
     <motion.div
-      className="fixed bottom-8 left-8 z-50 flex items-center overflow-hidden h-16 bg-white/30 backdrop-blur-md border border-white/50 rounded-full shadow-[0_8px_32px_rgba(0,150,255,0.15)]"
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => { setIsExpanded(false); setIsVolumeVisible(false); }}
+      className={`fixed bottom-8 left-8 z-50 flex items-center overflow-hidden h-16 bg-white/30 backdrop-blur-md border border-white/50 rounded-full shadow-[0_8px_32px_rgba(0,150,255,0.15)] ${isMobile ? 'cursor-pointer' : ''}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={isMobile ? handleClick : undefined}
       whileHover={{ y: -4, scale: 1.02 }}
       animate={{ width: isExpanded ? 'auto' : '64px' }}
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
-
-
-
-      {/* Dynamic Album Orb (Bagian Kiri) */}
-      <div className={`w-12 h-12 ml-2 rounded-full bg-gradient-to-tr from-[#3B82F6] to-white/20 flex items-center justify-center shadow-inner flex-shrink-0 ${isPlaying ? 'animate-[spin_8s_linear_infinite]' : ''}`}>
-        <div className="w-2 h-2 bg-white/80 rounded-full shadow-sm" />
+      {/* Vinyl Disc (Bagian Kiri) */}
+      <div className={`w-12 h-12 ml-2 flex-shrink-0 rounded-full overflow-hidden border-2 border-white/40 shadow-sm ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`}>
+        <img src="/assets/images/vinyl.png" alt="Vinyl" className="w-full h-full object-cover" />
       </div>
 
       {/* Expandable Content (Judul & Kontrol Utama) */}
       <motion.div
         animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -20 }}
         transition={{ duration: 0.2, delay: isExpanded ? 0.1 : 0 }}
-        className="whitespace-nowrap flex items-center gap-4 px-4 h-full"
+        className="whitespace-nowrap flex items-center h-full px-2 sm:px-4"
       >
-        {/* Track Info */}
-        <div className="flex flex-col justify-center">
-          <span className="text-sm font-bold text-blue-900/90 max-w-[120px] truncate select-none leading-tight">
-            {tracks[currentTrackIndex].title}
-          </span>
-          <span className="text-[10px] uppercase font-mono tracking-wider text-blue-800/60 select-none">
-            {isPlaying ? 'Now Playing' : 'Paused'}
-          </span>
+        {/* Track Info & Controls */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-center border-l border-white/30 max-sm:pl-3 max-sm:pr-6  h-full">
+
+          {/* Track Info */}
+          <div className="flex flex-col justify-center w-full">
+            <span className="text-xs sm:text-sm font-bold text-blue-900/90 max-w-[120px] truncate select-none leading-tight">
+              {tracks[currentTrackIndex].title}
+            </span>
+            <span className="hidden sm:block text-[10px] uppercase font-mono tracking-wider text-blue-800/60 select-none mt-[2px]">
+              {isPlaying ? 'Now Playing' : 'Paused'}
+            </span>
+          </div>
+
+          {/* Audio Controls */}
+          <div className="flex items-center justify-center gap-3 mt-1 sm:mt-0 sm:ml-4 sm:border-l sm:border-white/30 sm:pl-4">
+            <button
+              onClick={(e) => { e.stopPropagation(); skipBack(); }}
+              className="text-blue-800/80 hover:text-blue-600 transition-colors cursor-pointer"
+            >
+              <SkipBack size={14} fill="currentColor" />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              className="text-blue-800/80 hover:text-blue-600 transition-colors cursor-pointer"
+            >
+              {isPlaying ? (
+                <Pause size={16} fill="currentColor" />
+              ) : (
+                <Play size={16} fill="currentColor" />
+              )}
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); skipForward(); }}
+              className="text-blue-800/80 hover:text-blue-600 transition-colors cursor-pointer"
+            >
+              <SkipForward size={14} fill="currentColor" />
+            </button>
+          </div>
         </div>
 
-        {/* Audio Controls */}
-        <div className="flex items-center gap-1 border-l border-white/30 pl-4">
-          <button
-            onClick={skipBack}
-            className="w-8 h-8 flex items-center justify-center rounded-full text-blue-800/80 hover:bg-white/50 hover:text-blue-600 transition-colors"
-          >
-            <SkipBack size={16} fill="currentColor" />
-          </button>
-          <button
-            onClick={togglePlay}
-            className="w-8 h-8 flex items-center justify-center rounded-full text-blue-800/80 hover:bg-white/50 hover:text-blue-600 transition-colors"
-          >
-            {isPlaying ? (
-              <Pause size={16} fill="currentColor" />
-            ) : (
-              <Play size={16} fill="currentColor" />
-            )}
-          </button>
-          <button
-            onClick={skipForward}
-            className="w-8 h-8 flex items-center justify-center rounded-full text-blue-800/80 hover:bg-white/50 hover:text-blue-600 transition-colors"
-          >
-            <SkipForward size={16} fill="currentColor" />
-          </button>
-        </div>
-
-        {/* Volume Control */}
+        {/* Volume Control - Hidden on Mobile */}
         <div
-          className="flex items-center h-full border-l border-white/30 pl-4 relative"
+          className="hidden sm:flex items-center h-full border-l border-white/30 pl-4 ml-4 relative"
           onMouseEnter={() => setIsVolumeVisible(true)}
           onMouseLeave={() => setIsVolumeVisible(false)}
         >

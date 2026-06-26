@@ -116,7 +116,7 @@ const ProjectsPage = () => {
                 ))}
 
                 {/* ── Easter Egg : Spotlight Meme Finder ── */}
-                <ScrollStackItem itemClassName={`${CARD_CLASS} !shadow-none !border-0`}>
+                <ScrollStackItem itemClassName={`${CARD_CLASS} !shadow-[12px_12px_0px_0px_rgba(59,130,246,1)] dark:!shadow-[12px_12px_0px_0px_rgba(0,255,153,1)]`}>
                     <SpotlightMemeFinder />
                 </ScrollStackItem>
 
