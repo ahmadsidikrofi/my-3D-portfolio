@@ -25,6 +25,21 @@ export const skills = [
         type: 'Frontend',
     },
     {
+        imageUrl: '/assets/icons/gsap.svg',
+        name: 'GSAP',
+        type: 'Frontend',
+    },
+    {
+        imageUrl: '/assets/icons/motion.svg',
+        name: 'Motion',
+        type: 'Animation',
+    },
+    {
+        imageUrl: '/assets/icons/tailwindcss.svg',
+        name: 'Tailwind CSS',
+        type: 'Frontend',
+    },
+    {
         imageUrl: '/assets/icons/nextjs.svg',
         name: 'Next.js',
         type: 'Frontend',
@@ -40,19 +55,50 @@ export const skills = [
         type: 'Backend',
     },
     {
+        imageUrl: '/assets/icons/hono.svg',
+        name: 'Hono',
+        type: 'Backend',
+    },
+    {
+        imageUrl: '/assets/icons/python.svg',
+        name: 'Python',
+        type: 'Backend',
+    },
+    {
+        imageUrl: '/assets/icons/fastapi.svg',
+        name: 'FastAPI',
+        type: 'Backend',
+    },
+    {
+        imageUrl: '/assets/icons/langchain.svg',
+        name: 'Langchain',
+        type: 'AI',
+    },
+    {
+        imageUrl: '/assets/icons/laravel.svg',
+        name: 'Laravel',
+        type: 'Backend',
+    },
+    // Database & Tools
+    {
+        imageUrl: '/assets/icons/mysql.svg',
+        name: 'MySQL',
+        type: 'Database',
+    },
+    {
+        imageUrl: '/assets/icons/postgresql.svg',
+        name: 'PostgreSQL',
+        type: 'Database',
+    },
+    {
         imageUrl: '/assets/icons/mongodb.svg',
         name: 'MongoDB',
         type: 'Database',
     },
     {
-        imageUrl: '/assets/icons/redux.svg',
-        name: 'Redux',
-        type: 'State Management',
-    },
-    {
-        imageUrl: '/assets/icons/tailwindcss.svg',
-        name: 'Tailwind CSS',
-        type: 'Frontend',
+        imageUrl: '/assets/icons/chroma.svg',
+        name: 'ChromaDB',
+        type: 'Database',
     },
     {
         imageUrl: '/assets/icons/git.svg',
@@ -65,19 +111,14 @@ export const skills = [
         type: 'Version Control',
     },
     {
-        imageUrl: '/assets/icons/motion.svg',
-        name: 'Motion',
-        type: 'Animation',
+        imageUrl: '/assets/icons/google-cloud.svg',
+        name: 'Google Cloud',
+        type: 'Cloud',
     },
     {
-        imageUrl: '/assets/icons/mui.svg',
-        name: 'Material-UI',
-        type: 'Frontend',
-    },
-    {
-        imageUrl: '/assets/icons/sass.svg',
-        name: 'Sass',
-        type: 'Frontend',
+        imageUrl: '/assets/icons/docker.svg',
+        name: 'Docker',
+        type: 'DevOps',
     },
 ]
 
