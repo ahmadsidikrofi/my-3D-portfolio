@@ -18,7 +18,7 @@ export default function Home() {
   const router = useRouter()
 
   const handleDownloadPDF = () => {
-    window.open('Ahmad_Sidik_Rofiudin_Software_Developer.pdf', '_blank')
+    window.open('Rofi_Software_Developer.pdf', '_blank')
   }
 
   const items = [
@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <section className="w-full h-screen overflow-hidden relative">
       <DragHint isRotating={isRotating} />
-      
+
       <div className="absolute inset-0 pointer-events-none z-50">
         {items.map((item, index) => (
           <div key={item.label} className="pointer-events-auto">

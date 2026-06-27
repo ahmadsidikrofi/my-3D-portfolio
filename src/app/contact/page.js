@@ -6,6 +6,7 @@ import { Suspense, useEffect, useRef, useState } from "react"
 import { Send } from "lucide-react"
 import emailjs from "@emailjs/browser"
 import { Canvas } from "@react-three/fiber"
+import { OrbitControls } from "@react-three/drei"
 import { Fox } from "@/models/fox"
 import Loader from "@/components/Loader"
 import toast, { Toaster } from "react-hot-toast"
@@ -380,6 +381,11 @@ const ContactPage = () => {
                                     rotation={[12.629, -0.6, 0]}
                                     scale={foxConfig.scale}
                                 />
+                                {/* <OrbitControls 
+                                    enableZoom={false} 
+                                    enablePan={false} 
+                                    autoRotate={false}
+                                /> */}
                             </Suspense>
                         </Canvas>
                     </div>
