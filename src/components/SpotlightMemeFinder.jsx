@@ -72,7 +72,7 @@ const SpotlightMemeFinder = () => {
     }
 
     return (
-        <div className="w-full relative">
+        <div className="w-full relative max-sm:hidden">
             {/* The dark arena */}
             <div
                 ref={containerRef}

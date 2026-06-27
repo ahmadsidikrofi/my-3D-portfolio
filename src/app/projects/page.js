@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { projects } from "@/constants";
@@ -18,6 +19,16 @@ const CARD_CLASS =
     "!h-auto max-h-[75vh] overflow-y-auto hide-scroll !p-0 !rounded-2xl !shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] border-4 !border-solid border-black dark:border-white bg-white dark:bg-[#131313]";
 
 const ProjectsPage = () => {
+    // Default false to prevent hydration mismatch (server assumes desktop)
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 639px)').matches);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     return (
         <div className="h-screen overflow-hidden bg-[#f4f4f4] dark:bg-[#0a0a0a] text-neutral-900 dark:text-white">
             <TheVergeMenu />
@@ -116,9 +127,11 @@ const ProjectsPage = () => {
                 ))}
 
                 {/* ── Easter Egg : Spotlight Meme Finder ── */}
-                <ScrollStackItem itemClassName={`${CARD_CLASS} !shadow-[12px_12px_0px_0px_rgba(59,130,246,1)] dark:!shadow-[12px_12px_0px_0px_rgba(0,255,153,1)]`}>
-                    <SpotlightMemeFinder />
-                </ScrollStackItem>
+                {!isMobile && (
+                    <ScrollStackItem itemClassName={`${CARD_CLASS} !shadow-[12px_12px_0px_0px_rgba(59,130,246,1)] dark:!shadow-[12px_12px_0px_0px_rgba(0,255,153,1)]`}>
+                        <SpotlightMemeFinder />
+                    </ScrollStackItem>
+                )}
 
                 {/* ── Card : CTA ── */}
                 <ScrollStackItem
