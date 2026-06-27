@@ -12,6 +12,7 @@ import { FileText, MessageCircleCode, Projector, User } from "lucide-react";
 import { Suspense, useState } from "react";
 
 import { useRouter } from "next/navigation";
+import DragHint from "@/components/DragHint";
 
 export default function Home() {
   const router = useRouter()
@@ -71,6 +72,8 @@ export default function Home() {
 
   return (
     <section className="w-full h-screen overflow-hidden relative">
+      <DragHint isRotating={isRotating} />
+      
       <div className="absolute inset-0 pointer-events-none z-50">
         {items.map((item, index) => (
           <div key={item.label} className="pointer-events-auto">

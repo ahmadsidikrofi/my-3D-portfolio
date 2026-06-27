@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView, useScroll, useSpring, useTransform } from 'framer-motion';
 
 const EducationPinnedScroll = () => {
   const containerRef = useRef(null);
@@ -9,29 +9,30 @@ const EducationPinnedScroll = () => {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
-  })
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100, // Kecepatan merespon scroll
+    damping: 30,    // Mencegah animasi memantul-mantul
+    restDelta: 0.001
+  });
 
   // Card 1 (S2) animations
-  const y1 = useTransform(scrollYProgress, [0.0, 0.3, 0.8, 1], ["100vh", "0vh", "0vh", "-50vh"]);
-  const rotate1 = useTransform(scrollYProgress, [0.0, 0.3, 0.8, 1], [-15, 0, 0, 10]);
-  const scale1 = useTransform(scrollYProgress, [0.0, 0.3, 0.8, 1], [0.8, 1, 1, 0.5]);
-
+  const y1 = useTransform(smoothProgress, [0.0, 0.3, 0.8, 1], ["100vh", "0vh", "0vh", "-50vh"]);
+  const rotate1 = useTransform(smoothProgress, [0.0, 0.3, 0.8, 1], [-15, 0, 0, 10]);
+  const scale1 = useTransform(smoothProgress, [0.0, 0.3, 0.8, 1], [0.8, 1, 1, 0.5]);
   // Card 2 (S1) animations
-  const y2 = useTransform(scrollYProgress, [0.15, 0.45, 0.8, 1], ["150vh", "0vh", "0vh", "-50vh"]);
-  const rotate2 = useTransform(scrollYProgress, [0.15, 0.45, 0.8, 1], [15, 0, 0, -10]);
-  const scale2 = useTransform(scrollYProgress, [0.15, 0.45, 0.8, 1], [0.8, 1, 1, 0.5]);
-
+  const y2 = useTransform(smoothProgress, [0.15, 0.45, 0.8, 1], ["150vh", "0vh", "0vh", "-50vh"]);
+  const rotate2 = useTransform(smoothProgress, [0.15, 0.45, 0.8, 1], [15, 0, 0, -10]);
+  const scale2 = useTransform(smoothProgress, [0.15, 0.45, 0.8, 1], [0.8, 1, 1, 0.5]);
   return (
     <div ref={containerRef} className="w-full relative h-[300vh] border-b-4 border-black dark:border-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '400vh' }}>
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#f4f4f4] flex items-center justify-center" style={{ contain: 'strict' }}>
         <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
-          {/* Pola titik-titik Acid Mint */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#00FF99_2px,_transparent_2px)] bg-[length:40px_40px] transform-gpu will-change-transform"
-            style={{ animation: 'pan 4s linear infinite' }}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#00FF99_2px,_transparent_2px)] bg-[length:40px_40px] transform-gpu"
+            style={{ animation: 'pan 4s linear infinite', willChange: 'transform' }}
           />
-
-          {/* Efek kedalaman (Depth Masking) agar titik di tengah terang, di pinggir memudar */}
           <div className="absolute inset-0 mask-image-[radial-gradient(ellipse_at_center,black_20%,transparent_80%)] Webkit-mask-image-[radial-gradient(ellipse_at_center,black_20%,transparent_80%)]" />
         </div>
 
@@ -62,7 +63,7 @@ const EducationPinnedScroll = () => {
 
           <div className="absolute top-[15%] left-[5%] md:left-[15%] w-full max-w-[450px] z-20">
             <motion.div
-              style={{ y: y1, rotate: rotate1, scale: scale1, }}
+              style={{ y: y1, rotate: rotate1, scale: scale1, willChange: "transform", transform: "translateZ(0)" }}
               className="pointer-events-auto w-[90%] md:w-full border-4 border-black shadow-[12px_12px_0_0_#000] p-6 sm:p-8 bg-[#00FF99] text-black flex flex-col justify-between mx-auto md:mx-0"
             >
               <div>
@@ -87,7 +88,7 @@ const EducationPinnedScroll = () => {
 
           <div className="absolute top-[40%] right-[5%] md:right-[15%] w-full max-w-[450px] z-10">
             <motion.div
-              style={{ y: y2, rotate: rotate2, scale: scale2 }}
+              style={{ y: y2, rotate: rotate2, scale: scale2, willChange: "transform", transform: "translateZ(0)" }}
               className="pointer-events-auto w-[90%] md:w-full border-4 border-black shadow-[12px_12px_0_0_#000] p-6 sm:p-8 bg-white text-black flex flex-col justify-between mx-auto md:mx-0"
             >
               <div>

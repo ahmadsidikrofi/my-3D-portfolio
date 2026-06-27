@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const CertificationsPinnedScroll = () => {
@@ -12,25 +12,31 @@ const CertificationsPinnedScroll = () => {
     offset: ['start start', 'end end'],
   });
 
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   // Card 1 (IBM)
-  const x1 = useTransform(scrollYProgress, [0.0, 0.2, 0.7, 0.8], ["120vw", "0vw", "0vw", "0vw"]);
-  const y1 = useTransform(scrollYProgress, [0.0, 0.2, 0.7, 0.8], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot1 = useTransform(scrollYProgress, [0.0, 0.2], [40, 0]);
+  const x1 = useTransform(smoothProgress, [0.0, 0.2, 0.7, 0.8], ["120vw", "0vw", "0vw", "0vw"]);
+  const y1 = useTransform(smoothProgress, [0.0, 0.2, 0.7, 0.8], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot1 = useTransform(smoothProgress, [0.0, 0.2], [40, 0]);
 
   // Card 2 (HackerRank)
-  const x2 = useTransform(scrollYProgress, [0.1, 0.3, 0.75, 0.85], ["120vw", "0vw", "0vw", "0vw"]);
-  const y2 = useTransform(scrollYProgress, [0.1, 0.3, 0.75, 0.85], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot2 = useTransform(scrollYProgress, [0.1, 0.3], [40, 0]);
+  const x2 = useTransform(smoothProgress, [0.1, 0.3, 0.75, 0.85], ["120vw", "0vw", "0vw", "0vw"]);
+  const y2 = useTransform(smoothProgress, [0.1, 0.3, 0.75, 0.85], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot2 = useTransform(smoothProgress, [0.1, 0.3], [40, 0]);
 
   // Card 3 (BNSP)
-  const x3 = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 0.9], ["120vw", "0vw", "0vw", "0vw"]);
-  const y3 = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 0.9], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot3 = useTransform(scrollYProgress, [0.2, 0.4], [40, 0]);
+  const x3 = useTransform(smoothProgress, [0.2, 0.4, 0.8, 0.9], ["120vw", "0vw", "0vw", "0vw"]);
+  const y3 = useTransform(smoothProgress, [0.2, 0.4, 0.8, 0.9], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot3 = useTransform(smoothProgress, [0.2, 0.4], [40, 0]);
 
   // Card 4 (Udemy)
-  const x4 = useTransform(scrollYProgress, [0.3, 0.5, 0.85, 0.95], ["120vw", "0vw", "0vw", "0vw"]);
-  const y4 = useTransform(scrollYProgress, [0.3, 0.5, 0.85, 0.95], ["0vh", "0vh", "0vh", "-150vh"]);
-  const rot4 = useTransform(scrollYProgress, [0.3, 0.5], [40, 0]);
+  const x4 = useTransform(smoothProgress, [0.3, 0.5, 0.85, 0.95], ["120vw", "0vw", "0vw", "0vw"]);
+  const y4 = useTransform(smoothProgress, [0.3, 0.5, 0.85, 0.95], ["0vh", "0vh", "0vh", "-150vh"]);
+  const rot4 = useTransform(smoothProgress, [0.3, 0.5], [40, 0]);
 
   return (
     <div ref={containerRef} className="w-full relative h-[200vh] border-b-4 border-black dark:border-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '450vh' }}>
@@ -68,8 +74,8 @@ const CertificationsPinnedScroll = () => {
           {/* Card 1 (IBM) - Top Left */}
           <div className="absolute top-[10%] left-[5%] md:left-[10%] w-full max-w-[450px] z-40">
             <motion.div
-              style={{ x: x1, y: y1, rotate: rot1 }}
-              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#0f62fe] mx-auto md:mx-0 will-change-transform"
+              style={{ x: x1, y: y1, rotate: rot1, willChange: "transform", transform: "translateZ(0)" }}
+              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#0f62fe] mx-auto md:mx-0"
             >
               <div className="w-[20%] bg-white border-r-4 border-black flex items-center justify-center overflow-hidden">
                 <span className="font-black text-black/80 tracking-widest text-lg rotate-90 whitespace-nowrap">
@@ -102,8 +108,8 @@ const CertificationsPinnedScroll = () => {
           {/* Card 2 (HackerRank) - Mid Right */}
           <div className="absolute top-[25%] right-[5%] md:right-[10%] w-full max-w-[450px] z-30">
             <motion.div
-              style={{ x: x2, y: y2, rotate: rot2 }}
-              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#00EA64] mx-auto md:mx-0 will-change-transform"
+              style={{ x: x2, y: y2, rotate: rot2, willChange: "transform", transform: "translateZ(0)" }}
+              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#00EA64] mx-auto md:mx-0"
             >
               <div className="w-[20%] bg-white border-r-4 border-black flex items-center justify-center overflow-hidden">
                 <span className="font-black text-black/80 tracking-widest text-lg rotate-90 whitespace-nowrap">
@@ -142,8 +148,8 @@ const CertificationsPinnedScroll = () => {
           {/* Card 3 (BNSP) - Mid Left */}
           <div className="absolute top-[50%] left-[5%] md:left-[15%] w-full max-w-[450px] z-20">
             <motion.div
-              style={{ x: x3, y: y3, rotate: rot3 }}
-              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#FF3366] mx-auto md:mx-0 will-change-transform"
+              style={{ x: x3, y: y3, rotate: rot3, willChange: "transform", transform: "translateZ(0)" }}
+              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#FF3366] mx-auto md:mx-0"
             >
               <div className="w-[20%] bg-white border-r-4 border-black flex items-center justify-center overflow-hidden">
                 <span className="font-black text-black/80 tracking-widest text-lg rotate-90 whitespace-nowrap">
@@ -171,8 +177,8 @@ const CertificationsPinnedScroll = () => {
           {/* Card 4 (Udemy) - Bottom Right */}
           <div className="absolute top-[70%] right-[5%] md:right-[15%] w-full max-w-[450px] z-10">
             <motion.div
-              style={{ x: x4, y: y4, rotate: rot4 }}
-              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#A435F0] mx-auto md:mx-0 will-change-transform"
+              style={{ x: x4, y: y4, rotate: rot4, willChange: "transform", transform: "translateZ(0)" }}
+              className="pointer-events-auto w-[90%] md:w-full min-h-[160px] h-auto border-4 border-black shadow-[10px_10px_0_0_#000] flex bg-[#A435F0] mx-auto md:mx-0"
             >
               <div className="w-[20%] bg-white border-r-4 border-black flex items-center justify-center overflow-hidden">
                 <span className="font-black text-black/80 tracking-widest text-lg rotate-90 whitespace-nowrap">
