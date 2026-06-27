@@ -37,7 +37,7 @@ export default function DragHint({ isRotating }) {
       // Munculkan hint jika diam selama 3 detik
       idleTimerRef.current = setTimeout(() => {
         setShowHint(true);
-      }, 3000);
+      }, 2000);
     };
 
     const handleActivity = () => {
