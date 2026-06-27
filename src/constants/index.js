@@ -137,19 +137,6 @@ export const experiences = [
         ],
     },
     {
-        title: 'AI Engineer',
-        company_name: 'M&A Associates Orthodontics',
-        icon: '/assets/images/orthonova.png',
-        iconBg: '#bae6fd',
-        date: 'Feb 2025 - Sep 2025',
-        points: [
-            'Architected an AI-powered conversational assistant using Google Gemini to support patient communication and clinical operations.',
-            'Built a natural language search system leveraging LangChain SQL Agent, reducing complex patient data retrieval time by 40%.',
-            'Engineered a Retrieval-Augmented Generation (RAG) pipeline to summarize clinical conversations, reducing manual input by over 50%.',
-            'Unified structured database and unstructured conversation data through context-aware system design to enhance AI response accuracy.'
-        ],
-    },
-    {
         title: 'Backend Engineer',
         company_name: 'masJUBEL',
         icon: '/assets/images/masjubel.png',
@@ -160,6 +147,19 @@ export const experiences = [
             'Engineered a robust MySQL database architecture to store, track, and manage historical gold price fluctuations securely.',
             'Built 3 core REST APIs providing comprehensive data aggregation, 7-day market trends, and real-time highlighted price comparisons (up/down indicators).',
             'Implemented a reliable Cron scheduler running daily at 10 AM to autonomously trigger scraping workflows and ensure data accuracy.'
+        ],
+    },
+    {
+        title: 'AI Engineer',
+        company_name: 'M&A Associates Orthodontics',
+        icon: '/assets/images/orthonova.png',
+        iconBg: '#bae6fd',
+        date: 'Feb 2025 - Sep 2025',
+        points: [
+            'Architected an AI-powered conversational assistant using Google Gemini to support patient communication and clinical operations.',
+            'Built a natural language search system leveraging LangChain SQL Agent, reducing complex patient data retrieval time by 40%.',
+            'Engineered a Retrieval-Augmented Generation (RAG) pipeline to summarize clinical conversations, reducing manual input by over 50%.',
+            'Unified structured database and unstructured conversation data through context-aware system design to enhance AI response accuracy.'
         ],
     },
     {
