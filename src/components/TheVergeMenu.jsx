@@ -43,7 +43,7 @@ const TheVergeMenu = () => {
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' },
     {
       label: 'Resume', ariaLabel: 'Download Resume',
-      onClick: (e) => { e.preventDefault(); window.open('/Rofi_Software_Developer', '_blank'); }
+      onClick: (e) => { e.preventDefault(); window.open('/Rofi_Software_Developer.pdf', '_blank'); }
     },
     {
       label: isFullscreen ? 'Exit Fullscreen' : 'Fullscreen',
