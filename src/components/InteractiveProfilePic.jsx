@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 import useSound from 'use-sound'
+import { X } from 'lucide-react'
+import { LineShadowText } from "@/components/ui/line-shadow-text"
 
 // ── Constants ──
 const GROW_DURATION = 4000   // ms to fully reveal
@@ -13,10 +15,11 @@ const MAX_MASK = 100         // % radius for full coverage
 const InteractiveProfilePic = () => {
     const [isHovering, setIsHovering] = useState(false)
     const [hasExploded, setHasExploded] = useState(false)
+    const [isZoomed, setIsZoomed] = useState(false)
     const [playHorns] = useSound('/assets/airhorns.mp3', { volume: 0.5 })
 
-    const containerRef = useRef(null)
-    const revealRef = useRef(null)
+    const activeContainerRef = useRef(null)
+    const activeRevealRef = useRef(null)
 
     // Cursor tracking (refs to avoid re-renders on every mousemove)
     const mousePos = useRef({ x: 100, y: 100 })
@@ -31,18 +34,18 @@ const InteractiveProfilePic = () => {
 
     // ── Mask updater (runs every frame, no React re-render) ──
     const applyMask = useCallback(() => {
-        if (!revealRef.current) return
+        if (!activeRevealRef.current) return
         const { x, y } = mousePos.current
         const s = maskSizeRef.current
         const mask = `radial-gradient(circle at ${x}px ${y}px, black ${s}%, transparent ${s + 15}%)`
-        revealRef.current.style.WebkitMaskImage = mask
-        revealRef.current.style.maskImage = mask
+        activeRevealRef.current.style.WebkitMaskImage = mask
+        activeRevealRef.current.style.maskImage = mask
     }, [])
 
     // ── Confetti burst ──
     const fireConfetti = useCallback(() => {
-        if (!containerRef.current) return
-        const rect = containerRef.current.getBoundingClientRect()
+        if (!activeContainerRef.current) return
+        const rect = activeContainerRef.current.getBoundingClientRect()
         const ox = (rect.left + rect.width / 2) / window.innerWidth
         const oy = (rect.top + rect.height / 2) / window.innerHeight
 
@@ -170,8 +173,8 @@ const InteractiveProfilePic = () => {
         if (hasExploded) return
 
         const touch = e.touches[0]
-        if (touch && containerRef.current) {
-            const rect = containerRef.current.getBoundingClientRect()
+        if (touch && activeContainerRef.current) {
+            const rect = activeContainerRef.current.getBoundingClientRect()
             mousePos.current = {
                 x: touch.clientX - rect.left,
                 y: touch.clientY - rect.top,
@@ -187,6 +190,11 @@ const InteractiveProfilePic = () => {
             startShrinking()
         }
     }, [hasExploded, startShrinking])
+
+    // Ensure mask carries over flawlessly when views swap
+    useEffect(() => {
+        applyMask();
+    }, [isZoomed, applyMask]);
 
     return (
         <div className="relative shrink-0 select-none mt-8 sm:mt-0">
@@ -204,9 +212,11 @@ const InteractiveProfilePic = () => {
             )}
 
             {/* Main photo container */}
-            <div
-                ref={containerRef}
-                className="relative w-[200px] h-[200px] overflow-hidden rounded border-4 border-black shadow-[8px_8px_0_0_#000] cursor-crosshair"
+            <motion.div
+                layoutId="profile-photo"
+                onClick={() => setIsZoomed(true)}
+                ref={(el) => { if (!isZoomed) activeContainerRef.current = el }}
+                className="relative w-[200px] h-[200px] overflow-hidden rounded border-4 border-black shadow-[8px_8px_0_0_#000] cursor-pointer"
                 onMouseMove={handleMouseMove}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -223,8 +233,8 @@ const InteractiveProfilePic = () => {
 
                 {/* Layer 2 — Full-colour reveal (masked) */}
                 <div
-                    ref={revealRef}
-                    className="absolute inset-0 w-full h-full"
+                    ref={(el) => { if (!isZoomed) activeRevealRef.current = el }}
+                    className="absolute inset-0 w-full h-full pointer-events-none"
                     style={{
                         WebkitMaskImage: 'radial-gradient(circle at 100px 100px, black 0%, transparent 15%)',
                         maskImage: 'radial-gradient(circle at 100px 100px, black 0%, transparent 15%)',
@@ -239,7 +249,7 @@ const InteractiveProfilePic = () => {
                         className="w-full h-full object-cover object-bottom"
                     />
                 </div>
-            </div>
+            </motion.div>
 
             {/* Pulsing ring hint while hovering (before explosion) */}
             {isHovering && !hasExploded && (
@@ -262,6 +272,70 @@ const InteractiveProfilePic = () => {
                     ✨ Caught in 4K
                 </motion.span>
             )}
+
+            {/* Lightbox Overlay */}
+            <AnimatePresence>
+                {isZoomed && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 sm:p-8 backdrop-blur-sm"
+                        onClick={() => setIsZoomed(false)}
+                    >
+                        {/* The Expanded Photo */}
+                        <motion.div
+                            layoutId="profile-photo"
+                            ref={(el) => { if (isZoomed) activeContainerRef.current = el }}
+                            className="relative w-[90vw] max-w-2xl aspect-square bg-white border-8 border-black shadow-[20px_20px_0_0_#000] overflow-hidden flex items-center justify-center cursor-default"
+                            onClick={(e) => e.stopPropagation()}
+                            onMouseMove={handleMouseMove}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={handleTouchEnd}
+                        >
+                            <img
+                                src="/profile_pic.jpg"
+                                alt="Ahmad Sidik Rofiudin Expanded"
+                                draggable={false}
+                                className="absolute inset-0 w-full h-full object-cover object-bottom grayscale"
+                            />
+
+                            {/* Masked Colored Version inside Lightbox */}
+                            <div
+                                ref={(el) => { if (isZoomed) activeRevealRef.current = el }}
+                                className="absolute inset-0 w-full h-full pointer-events-none"
+                                style={{
+                                    WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 0%, transparent 15%)',
+                                    maskImage: 'radial-gradient(circle at 50% 50%, black 0%, transparent 15%)',
+                                    WebkitMaskRepeat: 'no-repeat',
+                                    maskRepeat: 'no-repeat',
+                                }}
+                            >
+                                <img
+                                    src="/profile_pic.jpg"
+                                    alt=""
+                                    draggable={false}
+                                    className="w-full h-full object-cover object-bottom"
+                                />
+                            </div>
+
+                            {/* Line Shadow Text Label */}
+                            <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 pointer-events-none z-[105]">
+                                <LineShadowText className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white" shadowColor="#3B82F6">
+                                    Rofi
+                                </LineShadowText>
+                            </div>
+                            <button className="cursor-pointer absolute top-2 right-6 md:top-2 md:right-6 bg-white text-black font-black font-mono text-xl sm:text-2xl px-4 py-2 border-4 border-black shadow-[6px_6px_0_0_#000] hover:bg-[#FF3366] hover:text-white transition-colors uppercase tracking-widest z-[110]"
+                                onClick={(e) => { e.stopPropagation(); setIsZoomed(false); }}
+                            >
+                                <X size={24} />
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }
