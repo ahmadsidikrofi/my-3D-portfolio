@@ -283,56 +283,75 @@ const InteractiveProfilePic = () => {
                         className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 sm:p-8 backdrop-blur-sm"
                         onClick={() => setIsZoomed(false)}
                     >
-                        {/* The Expanded Photo */}
-                        <motion.div
-                            layoutId="profile-photo"
-                            ref={(el) => { if (isZoomed) activeContainerRef.current = el }}
-                            className="relative w-[90vw] max-w-2xl aspect-square bg-white border-8 border-black shadow-[20px_20px_0_0_#000] overflow-hidden flex items-center justify-center cursor-default"
-                            onClick={(e) => e.stopPropagation()}
-                            onMouseMove={handleMouseMove}
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                            onTouchStart={handleTouchStart}
-                            onTouchEnd={handleTouchEnd}
-                        >
-                            <img
-                                src="/profile_pic.jpg"
-                                alt="Ahmad Sidik Rofiudin Expanded"
-                                draggable={false}
-                                className="absolute inset-0 w-full h-full object-cover object-bottom grayscale"
+                        {/* The Expanded Photo — wrapped for Line Shadow effect */}
+                        <div className="relative w-[90vw] max-w-2xl aspect-square" onClick={(e) => e.stopPropagation()}>
+                            {/* Line Shadow layer — hatched diagonal pattern offset behind the photo */}
+                            <div
+                                aria-hidden="true"
+                                className="absolute inset-0 border-8 border-black translate-x-[18px] translate-y-[18px] pointer-events-none"
+                                style={{
+                                    background: 'linear-gradient(45deg, transparent 45%, #3B82F6 45%, #3B82F6 55%, transparent 0)',
+                                    backgroundSize: '5px 5px',
+                                }}
                             />
 
-                            {/* Masked Colored Version inside Lightbox */}
-                            <div
-                                ref={(el) => { if (isZoomed) activeRevealRef.current = el }}
-                                className="absolute inset-0 w-full h-full pointer-events-none"
-                                style={{
-                                    WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 0%, transparent 15%)',
-                                    maskImage: 'radial-gradient(circle at 50% 50%, black 0%, transparent 15%)',
-                                    WebkitMaskRepeat: 'no-repeat',
-                                    maskRepeat: 'no-repeat',
-                                }}
+                            {/* The actual photo card */}
+                            <motion.div
+                                layoutId="profile-photo"
+                                ref={(el) => { if (isZoomed) activeContainerRef.current = el }}
+                                className="relative w-full h-full bg-white border-8 border-black overflow-hidden flex items-center justify-center cursor-default"
+                                onMouseMove={handleMouseMove}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                onTouchStart={handleTouchStart}
+                                onTouchEnd={handleTouchEnd}
                             >
                                 <img
                                     src="/profile_pic.jpg"
-                                    alt=""
+                                    alt="Ahmad Sidik Rofiudin Expanded"
                                     draggable={false}
-                                    className="w-full h-full object-cover object-bottom"
+                                    className="absolute inset-0 w-full h-full object-cover object-bottom grayscale"
                                 />
-                            </div>
 
-                            {/* Line Shadow Text Label */}
-                            <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 pointer-events-none z-[105]">
-                                <LineShadowText className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white" shadowColor="#3B82F6">
-                                    Rofi
-                                </LineShadowText>
-                            </div>
-                            <button className="cursor-pointer absolute top-2 right-6 md:top-2 md:right-6 bg-white text-black font-black font-mono text-xl sm:text-2xl px-4 py-2 border-4 border-black shadow-[6px_6px_0_0_#000] hover:bg-[#FF3366] hover:text-white transition-colors uppercase tracking-widest z-[110]"
-                                onClick={(e) => { e.stopPropagation(); setIsZoomed(false); }}
-                            >
-                                <X size={24} />
-                            </button>
-                        </motion.div>
+                                {/* Masked Colored Version inside Lightbox */}
+                                <div
+                                    ref={(el) => { if (isZoomed) activeRevealRef.current = el }}
+                                    className="absolute inset-0 w-full h-full pointer-events-none"
+                                    style={{
+                                        WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 0%, transparent 15%)',
+                                        maskImage: 'radial-gradient(circle at 50% 50%, black 0%, transparent 15%)',
+                                        WebkitMaskRepeat: 'no-repeat',
+                                        maskRepeat: 'no-repeat',
+                                    }}
+                                >
+                                    <img
+                                        src="/profile_pic.jpg"
+                                        alt=""
+                                        draggable={false}
+                                        className="w-full h-full object-cover object-bottom"
+                                    />
+                                </div>
+
+                                {/* Close button */}
+                                <button
+                                    className="cursor-pointer absolute top-2 right-2 bg-white text-black font-black font-mono text-xl sm:text-2xl px-4 py-2 border-4 border-black shadow-[4px_4px_0_0_#000] hover:bg-[#FF3366] hover:text-white transition-colors uppercase tracking-widest z-[110]"
+                                    onClick={(e) => { e.stopPropagation(); setIsZoomed(false); }}
+                                >
+                                    <X size={24} />
+                                </button>
+                            </motion.div>
+                            {hasExploded && (
+                                <motion.span
+                                    className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-[#3B82F6] text-white text-lg font-mono font-bold uppercase tracking-widest border-2 border-black shadow-[3px_3px_0_0_#000] whitespace-nowrap"
+                                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    transition={{ type: 'spring', damping: 25, stiffness: 600 }}
+                                >
+                                    ✨ Caught in 4K
+                                </motion.span>
+                            )}
+
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
