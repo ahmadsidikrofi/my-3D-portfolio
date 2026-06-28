@@ -41,7 +41,10 @@ const TheVergeMenu = () => {
     { label: 'Projects', ariaLabel: 'View our projects', link: '/projects' },
     { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' },
-    { label: 'Resume', ariaLabel: 'Download Resume', link: '/unduh-resume' },
+    {
+      label: 'Resume', ariaLabel: 'Download Resume',
+      onClick: (e) => { e.preventDefault(); window.open('/Rofi_Software_Developer', '_blank'); }
+    },
     {
       label: isFullscreen ? 'Exit Fullscreen' : 'Fullscreen',
       ariaLabel: 'Toggle Fullscreen',
